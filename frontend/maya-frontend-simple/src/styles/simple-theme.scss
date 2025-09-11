@@ -1,0 +1,50 @@
+// Simple Professional Theme for Angular Material
+@use '@angular/material' as mat;
+
+// Include the common styles for Angular Material
+@include mat.core();
+
+// Define the palettes for our theme using predefined Material palettes
+$primary-palette: mat.define-palette(mat.$blue-palette, 600);
+$accent-palette: mat.define-palette(mat.$green-palette, A200);
+$warn-palette: mat.define-palette(mat.$red-palette, 500);
+
+// Create the theme object
+$app-theme: mat.define-light-theme((
+  color: (
+    primary: $primary-palette,
+    accent: $accent-palette,
+    warn: $warn-palette,
+  ),
+  typography: mat.define-typography-config(
+    $font-family: 'Inter, sans-serif',
+  ),
+  density: 0,
+));
+
+// Include theme styles for all components
+@include mat.all-component-themes($app-theme);
+
+// Simple overrides for better visual appearance
+.mat-mdc-card {
+  border-radius: 12px !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+}
+
+.mat-mdc-button {
+  border-radius: 8px !important;
+  text-transform: none !important;
+  font-weight: 500 !important;
+}
+
+.mat-mdc-icon-button {
+  border-radius: 50% !important;
+}
+
+.mat-toolbar {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+}
+
+.mat-drawer {
+  box-shadow: 2px 0 8px rgba(0,0,0,0.1) !important;
+}
