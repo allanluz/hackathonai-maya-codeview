@@ -13,15 +13,13 @@
         <relativePath/>
     </parent>
     
-    <groupId>com.sinqia</groupId>
+    <groupId>com.evertec</groupId>
     <artifactId>maya-code-review</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
-    
+
     <name>MAYA Code Review System</name>
-    <description>Sistema de revisão automatizada de código com análise MAYA para padrões Sinqia</description>
-    
-    <properties>
+    <description>Sistema de revisão automatizada de código com análise MAYA para padrões Evertec</description>    <properties>
         <java.version>17</java.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>

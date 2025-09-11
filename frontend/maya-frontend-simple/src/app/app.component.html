@@ -1,0 +1,48 @@
+<div class="app-container">
+  <header class="header">
+    <h1>MAYA Code Review System - Evertec</h1>
+    <p>Sistema de Análise de Código Inteligente</p>
+  </header>
+
+  <main class="main-content">
+    <div class="dashboard">
+      <h2>Dashboard</h2>
+      
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <h3>Total de Análises</h3>
+          <div class="metric-value">{{ metrics.totalAnalyses }}</div>
+        </div>
+        
+        <div class="metric-card">
+          <h3>Código Analisado</h3>
+          <div class="metric-value">{{ metrics.linesAnalyzed }}</div>
+        </div>
+        
+        <div class="metric-card">
+          <h3>Issues Encontradas</h3>
+          <div class="metric-value">{{ metrics.issuesFound }}</div>
+        </div>
+        
+        <div class="metric-card">
+          <h3>Score de Qualidade</h3>
+          <div class="metric-value">{{ metrics.qualityScore }}%</div>
+        </div>
+      </div>
+
+      <div class="analysis-summary">
+        <h3>Análise Recente</h3>
+        <div class="summary-item" *ngFor="let item of analysisData">
+          <span class="file-name">{{ item.fileName }}</span>
+          <span class="score" [class]="getScoreClass(item.score)">{{ item.score }}%</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2025 Evertec - MAYA Code Review System</p>
+  </footer>
+</div>
+
+<router-outlet></router-outlet>

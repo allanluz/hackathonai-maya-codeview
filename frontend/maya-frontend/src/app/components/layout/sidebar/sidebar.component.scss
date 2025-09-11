@@ -1,0 +1,147 @@
+.sidebar-container {
+  height: 100vh;
+}
+
+.sidebar {
+  width: 280px;
+  border-right: 1px solid rgba(0,0,0,0.12);
+  background-color: #fafafa;
+}
+
+.nav-list {
+  padding-top: 16px;
+}
+
+.nav-list a {
+  margin: 4px 16px;
+  border-radius: 8px;
+  height: 48px;
+  font-weight: 500;
+  color: rgba(0,0,0,0.87);
+  
+  &:hover {
+    background-color: rgba(63, 81, 181, 0.08);
+    color: #3f51b5;
+  }
+
+  &.active-link {
+    background-color: rgba(63, 81, 181, 0.12);
+    color: #3f51b5;
+    font-weight: 600;
+    
+    mat-icon {
+      color: #3f51b5;
+    }
+  }
+}
+
+.nav-divider {
+  margin: 16px;
+}
+
+.review-badges {
+  margin-left: auto;
+  margin-right: 8px;
+}
+
+.active-reviews-badge {
+  background-color: #ff5722;
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  min-height: 20px;
+  padding: 2px 8px;
+}
+
+.connection-status {
+  margin-left: auto;
+  margin-right: 8px;
+  font-size: 18px;
+  
+  &.connection-online {
+    color: #4caf50;
+  }
+  
+  &.connection-offline {
+    color: #f44336;
+  }
+}
+
+.sidebar-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 16px;
+  background-color: #f5f5f5;
+  border-top: 1px solid rgba(0,0,0,0.12);
+}
+
+.version-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.version-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(0,0,0,0.6);
+}
+
+.company-label {
+  font-size: 11px;
+  color: rgba(0,0,0,0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.main-content {
+  margin-left: 0;
+  transition: margin-left 0.3s ease;
+}
+
+// Responsividade
+@media (max-width: 768px) {
+  .sidebar {
+    width: 240px;
+  }
+  
+  .nav-list a {
+    margin: 4px 8px;
+  }
+  
+  .sidebar-footer {
+    padding: 12px;
+  }
+}
+
+// Modo escuro (se implementado)
+@media (prefers-color-scheme: dark) {
+  .sidebar {
+    background-color: #303030;
+    border-right-color: rgba(255,255,255,0.12);
+  }
+  
+  .nav-list a {
+    color: rgba(255,255,255,0.87);
+    
+    &:hover {
+      background-color: rgba(63, 81, 181, 0.12);
+    }
+  }
+  
+  .sidebar-footer {
+    background-color: #424242;
+    border-top-color: rgba(255,255,255,0.12);
+  }
+  
+  .version-label {
+    color: rgba(255,255,255,0.6);
+  }
+  
+  .company-label {
+    color: rgba(255,255,255,0.4);
+  }
+}

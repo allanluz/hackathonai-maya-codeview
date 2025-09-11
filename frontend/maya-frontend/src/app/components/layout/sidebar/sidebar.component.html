@@ -1,0 +1,91 @@
+<mat-sidenav-container class="sidebar-container">
+  <mat-sidenav
+    #sidenav
+    mode="side"
+    opened="true"
+    class="sidebar"
+    [fixedInViewport]="true"
+    [fixedTopGap]="64">
+    
+    <mat-nav-list class="nav-list">
+      <!-- Dashboard -->
+      <a mat-list-item routerLink="/dashboard" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>dashboard</mat-icon>
+        <span matListItemTitle>Dashboard</span>
+      </a>
+
+      <!-- Code Reviews -->
+      <a mat-list-item routerLink="/reviews" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>code</mat-icon>
+        <span matListItemTitle>Code Reviews</span>
+        <mat-chip-set class="review-badges">
+          <mat-chip class="active-reviews-badge">{{ activeReviews }}</mat-chip>
+        </mat-chip-set>
+      </a>
+
+      <!-- Análises -->
+      <a mat-list-item routerLink="/analysis" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>analytics</mat-icon>
+        <span matListItemTitle>Análises</span>
+      </a>
+
+      <!-- Relatórios -->
+      <a mat-list-item routerLink="/reports" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>assessment</mat-icon>
+        <span matListItemTitle>Relatórios</span>
+      </a>
+
+      <mat-divider class="nav-divider"></mat-divider>
+
+      <!-- Configurações -->
+      <a mat-list-item routerLink="/configurations" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>settings</mat-icon>
+        <span matListItemTitle>Configurações</span>
+      </a>
+
+      <!-- Integrações -->
+      <a mat-list-item routerLink="/integrations" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>integration_instructions</mat-icon>
+        <span matListItemTitle>Integrações</span>
+      </a>
+
+      <!-- TFS/Azure DevOps -->
+      <a mat-list-item routerLink="/tfs" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>cloud_sync</mat-icon>
+        <span matListItemTitle>TFS/Azure DevOps</span>
+        <mat-icon 
+          class="connection-status" 
+          [class]="tfsConnectionClass"
+          [matTooltip]="tfsConnectionTooltip">
+          {{ tfsConnectionIcon }}
+        </mat-icon>
+      </a>
+
+      <mat-divider class="nav-divider"></mat-divider>
+
+      <!-- Ajuda -->
+      <a mat-list-item routerLink="/help" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>help</mat-icon>
+        <span matListItemTitle>Ajuda</span>
+      </a>
+
+      <!-- Sobre -->
+      <a mat-list-item routerLink="/about" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>info</mat-icon>
+        <span matListItemTitle>Sobre</span>
+      </a>
+    </mat-nav-list>
+
+    <!-- Footer da sidebar -->
+    <div class="sidebar-footer">
+      <div class="version-info">
+        <span class="version-label">MAYA v{{ version }}</span>
+        <span class="company-label">Evertec</span>
+      </div>
+    </div>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="main-content">
+    <ng-content></ng-content>
+  </mat-sidenav-content>
+</mat-sidenav-container>

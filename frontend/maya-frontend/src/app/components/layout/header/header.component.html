@@ -1,0 +1,50 @@
+<mat-toolbar color="primary" class="header-toolbar">
+  <button
+    mat-icon-button
+    (click)="toggleSidebar()"
+    class="menu-button"
+    aria-label="Toggle sidebar">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <div class="logo-section">
+    <img src="assets/images/evertec-logo.png" alt="Evertec" class="company-logo" />
+    <span class="app-title">MAYA Code Review</span>
+  </div>
+
+  <div class="header-spacer"></div>
+
+  <div class="header-actions">
+    <!-- Status de saúde do sistema -->
+    <button mat-icon-button [matTooltip]="healthTooltip" class="health-indicator">
+      <mat-icon [class]="healthIconClass">{{ healthIcon }}</mat-icon>
+    </button>
+
+    <!-- Notificações -->
+    <button mat-icon-button [matBadge]="notificationCount" matBadgeColor="warn" class="notifications">
+      <mat-icon>notifications</mat-icon>
+    </button>
+
+    <!-- Menu do usuário -->
+    <button mat-icon-button [matMenuTriggerFor]="userMenu" class="user-menu">
+      <mat-icon>account_circle</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+
+<!-- Menu do usuário -->
+<mat-menu #userMenu="matMenu">
+  <button mat-menu-item>
+    <mat-icon>person</mat-icon>
+    <span>Perfil</span>
+  </button>
+  <button mat-menu-item>
+    <mat-icon>settings</mat-icon>
+    <span>Configurações</span>
+  </button>
+  <mat-divider></mat-divider>
+  <button mat-menu-item>
+    <mat-icon>exit_to_app</mat-icon>
+    <span>Sair</span>
+  </button>
+</mat-menu>
