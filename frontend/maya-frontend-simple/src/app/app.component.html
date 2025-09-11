@@ -1,55 +1,75 @@
-<mat-sidenav-container class="sidenav-container fade-in">
-  <!-- Enhanced Sidebar -->
+<mat-sidenav-container class="sidenav-container">
+  <!-- Professional Sidebar -->
   <mat-sidenav #sidenav 
                [opened]="sidenavOpened" 
                mode="side" 
-               class="sidenav slide-up"
+               class="sidenav"
                fixedInViewport="true">
     
-    <!-- Enhanced Logo e Header da Sidebar -->
-    <div class="sidenav-header scale-in">
+    <!-- Logo Section -->
+    <div class="sidenav-header">
       <div class="logo-section">
-        <mat-icon class="logo-icon">code</mat-icon>
-        <h2 class="logo-text">MAYA</h2>
+        <mat-icon class="logo-icon">analytics</mat-icon>
+        <div>
+          <h2 class="logo-text">MAYA</h2>
+          <p class="company-name">Code Review System</p>
+        </div>
       </div>
-      <p class="company-name">Evertec Innovation</p>
     </div>
 
-    <!-- Enhanced Menu de Navegação -->
-    <mat-nav-list class="nav-list">
-      <mat-list-item 
-        *ngFor="let item of menuItems; let i = index" 
-        class="nav-item"
-        [class.active]="item.name === 'Dashboard'"
-        [style.animation-delay]="(i * 0.1) + 's'"
-        style="animation: slideUp 0.6s ease-out both;"
-        (click)="navigateTo(item.route)">
-        <mat-icon matListItemIcon [color]="item.name === 'Dashboard' ? 'primary' : ''">
-          {{ item.icon }}
-        </mat-icon>
-        <span matListItemTitle>{{ item.name }}</span>
-        <mat-chip 
-          *ngIf="item.badge" 
-          class="nav-badge"
-          color="accent">
-          {{ item.badge }}
-        </mat-chip>
-      </mat-list-item>
-    </mat-nav-list>
+    <!-- Navigation Menu -->
+    <nav class="nav-list">
+      <a class="nav-item active" (click)="navigateTo('/dashboard')">
+        <mat-icon>dashboard</mat-icon>
+        <span>Dashboard</span>
+      </a>
+      
+      <a class="nav-item" (click)="navigateTo('/analysis')">
+        <mat-icon>code</mat-icon>
+        <span>Code Analysis</span>
+        <span class="nav-badge">3</span>
+      </a>
+      
+      <a class="nav-item" (click)="navigateTo('/reviews')">
+        <mat-icon>rate_review</mat-icon>
+        <span>Code Reviews</span>
+        <span class="nav-badge">7</span>
+      </a>
+      
+      <a class="nav-item" (click)="navigateTo('/quality')">
+        <mat-icon>verified</mat-icon>
+        <span>Quality Rules</span>
+      </a>
+      
+      <a class="nav-item" (click)="navigateTo('/reports')">
+        <mat-icon>assessment</mat-icon>
+        <span>Reports</span>
+      </a>
+      
+      <a class="nav-item" (click)="navigateTo('/teams')">
+        <mat-icon>groups</mat-icon>
+        <span>Teams</span>
+      </a>
+      
+      <a class="nav-item" (click)="navigateTo('/settings')">
+        <mat-icon>settings</mat-icon>
+        <span>Settings</span>
+      </a>
+    </nav>
 
-    <!-- Enhanced User Info -->
+    <!-- User Section -->
     <div class="user-section">
-      <mat-list-item class="user-item">
-        <mat-icon matListItemIcon>account_circle</mat-icon>
-        <span matListItemTitle>Admin Evertec</span>
-        <mat-icon matListItemIcon>expand_more</mat-icon>
-      </mat-list-item>
+      <div class="user-item">
+        <mat-icon>account_circle</mat-icon>
+        <span>Admin User</span>
+        <mat-icon>expand_more</mat-icon>
+      </div>
     </div>
   </mat-sidenav>
 
-  <!-- Enhanced Conteúdo Principal -->
+  <!-- Main Content -->
   <mat-sidenav-content class="main-content">
-    <!-- Enhanced Toolbar Superior -->
+    <!-- Header -->
     <mat-toolbar class="toolbar">
       <button mat-icon-button (click)="toggleSidenav()">
         <mat-icon>menu</mat-icon>
@@ -58,149 +78,141 @@
       <span class="spacer"></span>
       <div class="toolbar-actions">
         <button mat-icon-button>
-          <mat-icon matBadge="5" matBadgeColor="accent">notifications</mat-icon>
+          <mat-icon matBadge="3" matBadgeColor="warn">notifications</mat-icon>
         </button>
         <button mat-icon-button>
           <mat-icon>search</mat-icon>
         </button>
         <button mat-icon-button>
-          <mat-icon>help_outline</mat-icon>
-        </button>
-        <button mat-icon-button [matMenuTriggerFor]="userMenu">
           <mat-icon>account_circle</mat-icon>
         </button>
-        <mat-menu #userMenu="matMenu">
-          <button mat-menu-item>
-            <mat-icon>person</mat-icon>
-            <span>Perfil</span>
-          </button>
-          <button mat-menu-item>
-            <mat-icon>settings</mat-icon>
-            <span>Configurações</span>
-          </button>
-          <button mat-menu-item>
-            <mat-icon>logout</mat-icon>
-            <span>Sair</span>
-          </button>
-        </mat-menu>
       </div>
     </mat-toolbar>
 
-    <!-- Enhanced Dashboard Content -->
+    <!-- Dashboard Content -->
     <div class="dashboard-container">
       
       <!-- Welcome Section -->
-      <div class="welcome-section slide-up">
-        <h1 class="section-title">
-          <mat-icon>waving_hand</mat-icon>
-          Bem-vindo ao MAYA
-        </h1>
-        <p class="section-subtitle">Sistema Inteligente de Revisão de Código da Evertec</p>
+      <div class="welcome-section">
+        <h1 class="section-title">Welcome to MAYA</h1>
+        <p class="section-subtitle">Your intelligent code review and quality assurance platform</p>
       </div>
       
-      <!-- Enhanced Métricas Principais -->
-      <div class="metrics-section">
-        <div class="metrics-grid">
-          
-          <mat-card class="metric-card primary-metric scale-in" style="animation-delay: 0.1s;">
-            <mat-card-content>
-              <div class="metric-header">
-                <mat-icon>analytics</mat-icon>
-                <span class="metric-label">Total de Análises</span>
+      <!-- Key Metrics -->
+      <div class="metrics-grid">
+        
+        <mat-card class="metric-card">
+          <mat-card-content>
+            <div class="metric-header">
+              <div class="metric-info">
+                <div class="metric-icon primary">
+                  <mat-icon>analytics</mat-icon>
+                </div>
+                <div class="metric-text">
+                  <h3>Total Analyses</h3>
+                  <div class="metric-value">{{ metrics.totalAnalyses | number }}</div>
+                </div>
               </div>
-              <div class="metric-value">{{ metrics.totalAnalyses }}</div>
               <div class="metric-change positive">
                 <mat-icon>trending_up</mat-icon>
-                +12% esta semana
+                +12%
               </div>
-              <mat-progress-bar mode="determinate" value="75" color="accent"></mat-progress-bar>
-            </mat-card-content>
-          </mat-card>
+            </div>
+          </mat-card-content>
+        </mat-card>
 
-          <mat-card class="metric-card scale-in" style="animation-delay: 0.2s;">
-            <mat-card-content>
-              <div class="metric-header">
-                <mat-icon>code</mat-icon>
-                <span class="metric-label">Linhas Analisadas</span>
+        <mat-card class="metric-card">
+          <mat-card-content>
+            <div class="metric-header">
+              <div class="metric-info">
+                <div class="metric-icon success">
+                  <mat-icon>code</mat-icon>
+                </div>
+                <div class="metric-text">
+                  <h3>Lines Analyzed</h3>
+                  <div class="metric-value">{{ metrics.linesAnalyzed }}</div>
+                </div>
               </div>
-              <div class="metric-value">{{ metrics.linesAnalyzed }}</div>
               <div class="metric-change positive">
                 <mat-icon>trending_up</mat-icon>
-                +8% esta semana
+                +8%
               </div>
-              <mat-progress-bar mode="determinate" value="85" color="primary"></mat-progress-bar>
-            </mat-card-content>
-          </mat-card>
+            </div>
+          </mat-card-content>
+        </mat-card>
 
-          <mat-card class="metric-card scale-in" style="animation-delay: 0.3s;">
-            <mat-card-content>
-              <div class="metric-header">
-                <mat-icon>bug_report</mat-icon>
-                <span class="metric-label">Issues Encontradas</span>
+        <mat-card class="metric-card">
+          <mat-card-content>
+            <div class="metric-header">
+              <div class="metric-info">
+                <div class="metric-icon warning">
+                  <mat-icon>bug_report</mat-icon>
+                </div>
+                <div class="metric-text">
+                  <h3>Issues Found</h3>
+                  <div class="metric-value">{{ metrics.issuesFound | number }}</div>
+                </div>
               </div>
-              <div class="metric-value">{{ metrics.issuesFound }}</div>
               <div class="metric-change negative">
                 <mat-icon>trending_down</mat-icon>
-                -5% esta semana
+                -5%
               </div>
-              <mat-progress-bar mode="determinate" value="45" color="warn"></mat-progress-bar>
-            </mat-card-content>
-          </mat-card>
+            </div>
+          </mat-card-content>
+        </mat-card>
 
-          <mat-card class="metric-card scale-in" style="animation-delay: 0.4s;">
-            <mat-card-content>
-              <div class="metric-header">
-                <mat-icon>grade</mat-icon>
-                <span class="metric-label">Score de Qualidade</span>
+        <mat-card class="metric-card">
+          <mat-card-content>
+            <div class="metric-header">
+              <div class="metric-info">
+                <div class="metric-icon primary">
+                  <mat-icon>grade</mat-icon>
+                </div>
+                <div class="metric-text">
+                  <h3>Quality Score</h3>
+                  <div class="metric-value">{{ metrics.qualityScore }}%</div>
+                </div>
               </div>
-              <div class="metric-value">{{ metrics.qualityScore }}%</div>
               <div class="metric-change positive">
                 <mat-icon>trending_up</mat-icon>
-                +5% esta semana
+                +3%
               </div>
-              <mat-progress-bar 
-                mode="determinate" 
-                [value]="metrics.qualityScore"
-                color="accent">
-              </mat-progress-bar>
-            </mat-card-content>
-          </mat-card>
+            </div>
+          </mat-card-content>
+        </mat-card>
 
-        </div>
       </div>
 
-      <!-- Enhanced Seção de Análises e Atividades -->
+      <!-- Content Grid -->
       <div class="content-grid">
         
-        <!-- Enhanced Análises Recentes -->
-        <mat-card class="analysis-card slide-up" style="animation-delay: 0.5s;">
+        <!-- Recent Analysis -->
+        <mat-card class="analysis-card">
           <mat-card-header>
             <mat-card-title>
               <mat-icon>analytics</mat-icon>
-              Análises Recentes
+              Recent Code Analysis
             </mat-card-title>
             <div class="card-actions">
               <button mat-icon-button>
                 <mat-icon>refresh</mat-icon>
               </button>
-              <button mat-button color="primary">Ver Todas</button>
+              <button mat-button color="primary">View All</button>
             </div>
           </mat-card-header>
           
           <mat-card-content>
             <div class="analysis-list">
-              <div class="analysis-item" *ngFor="let item of analysisData; let i = index"
-                   [style.animation-delay]="(0.6 + i * 0.1) + 's'"
-                   style="animation: slideUp 0.6s ease-out both;">
+              <div class="analysis-item" *ngFor="let item of analysisData">
                 <div class="file-info">
                   <div class="file-name">
                     <mat-icon class="file-icon">description</mat-icon>
                     {{ item.fileName }}
                   </div>
                   <div class="file-details">
-                    <mat-chip class="file-type" size="small">{{ item.type }}</mat-chip>
-                    <span class="author">por {{ item.author }}</span>
-                    <span class="time">{{ item.lastAnalysis }}</span>
+                    <span class="file-type">{{ item.type }}</span>
+                    <span>by {{ item.author }}</span>
+                    <span>{{ item.lastAnalysis }}</span>
                   </div>
                 </div>
                 <div class="analysis-score">
@@ -208,7 +220,7 @@
                     {{ item.score }}%
                   </div>
                   <div class="issues-count">
-                    <mat-icon class="issue-icon">error_outline</mat-icon>
+                    <mat-icon>error_outline</mat-icon>
                     {{ item.issues }} issues
                   </div>
                 </div>
@@ -217,29 +229,20 @@
           </mat-card-content>
         </mat-card>
 
-        <!-- Enhanced Atividades Recentes -->
-        <mat-card class="activity-card slide-up" style="animation-delay: 0.6s;">
+        <!-- Recent Activity -->
+        <mat-card class="activity-card">
           <mat-card-header>
             <mat-card-title>
               <mat-icon>history</mat-icon>
-              Atividades Recentes
+              Recent Activity
             </mat-card-title>
-            <div class="card-actions">
-              <button mat-icon-button>
-                <mat-icon>filter_list</mat-icon>
-              </button>
-            </div>
           </mat-card-header>
           
           <mat-card-content>
             <div class="activity-list">
-              <div class="activity-item" *ngFor="let activity of recentActivities; let i = index"
-                   [style.animation-delay]="(0.7 + i * 0.1) + 's'"
-                   style="animation: slideUp 0.6s ease-out both;">
-                <div class="activity-icon">
-                  <mat-icon [color]="getActivityColor(activity.type)">
-                    {{ getActivityIcon(activity.type) }}
-                  </mat-icon>
+              <div class="activity-item" *ngFor="let activity of recentActivities">
+                <div class="activity-icon" [class]="getActivityClass(activity.type)">
+                  <mat-icon>{{ getActivityIcon(activity.type) }}</mat-icon>
                 </div>
                 <div class="activity-content">
                   <div class="activity-action">{{ activity.action }}</div>
@@ -253,27 +256,57 @@
 
       </div>
 
-      <!-- Enhanced Métricas Adicionais -->
-      <div class="metrics-section">
-        <h2 class="section-title slide-up" style="animation-delay: 0.8s;">
-          <mat-icon>insights</mat-icon>
-          Insights Detalhados
-        </h2>
-        <div class="additional-metrics">
-          <mat-card class="small-metric scale-in" style="animation-delay: 0.9s;"
-                    *ngFor="let metric of additionalMetrics; let i = index"
-                    [style.animation-delay]="(0.9 + i * 0.1) + 's'">
-            <mat-card-content>
-              <div class="small-metric-content">
-                <mat-icon [style.color]="metric.color">{{ metric.icon }}</mat-icon>
-                <div>
-                  <div class="small-metric-value">{{ metric.value }}</div>
-                  <div class="small-metric-label">{{ metric.label }}</div>
-                </div>
+      <!-- Additional Metrics -->
+      <div class="additional-metrics">
+        
+        <mat-card class="small-metric">
+          <mat-card-content>
+            <div class="small-metric-content">
+              <mat-icon style="color: var(--error-color);">priority_high</mat-icon>
+              <div>
+                <div class="small-metric-value">{{ metrics.criticalIssues }}</div>
+                <div class="small-metric-label">Critical Issues</div>
               </div>
-            </mat-card-content>
-          </mat-card>
-        </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="small-metric">
+          <mat-card-content>
+            <div class="small-metric-content">
+              <mat-icon style="color: var(--success-color);">check_circle</mat-icon>
+              <div>
+                <div class="small-metric-value">{{ metrics.resolvedIssues }}</div>
+                <div class="small-metric-label">Resolved Issues</div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="small-metric">
+          <mat-card-content>
+            <div class="small-metric-content">
+              <mat-icon style="color: var(--primary-color);">rate_review</mat-icon>
+              <div>
+                <div class="small-metric-value">{{ metrics.pendingReviews }}</div>
+                <div class="small-metric-label">Pending Reviews</div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="small-metric">
+          <mat-card-content>
+            <div class="small-metric-content">
+              <mat-icon style="color: var(--warning-color);">speed</mat-icon>
+              <div>
+                <div class="small-metric-value">2.3s</div>
+                <div class="small-metric-label">Avg Response</div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
       </div>
 
     </div>

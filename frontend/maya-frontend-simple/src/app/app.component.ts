@@ -221,4 +221,16 @@ export class AppComponent implements OnInit {
     };
     return colors[type] || 'primary';
   }
+
+  getActivityClass(type: string): string {
+    switch (type) {
+      case 'analysis': return 'activity-analysis';
+      case 'review': return 'activity-review';
+      case 'issue': return 'activity-issue';
+      case 'fix': return 'activity-fix';
+      case 'alert': return 'activity-alert';
+      case 'integration': return 'activity-integration';
+      default: return 'activity-default';
+    }
+  }
 }
