@@ -12,12 +12,20 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatBadgeModule } from '@angular/material/badge';
+import { MatMenuModule } from '@angular/material/menu';
 
 interface MenuItem {
   name: string;
   icon: string;
   route: string;
   badge?: number;
+}
+
+interface AdditionalMetric {
+  icon: string;
+  value: string;
+  label: string;
+  color: string;
 }
 
 @Component({
@@ -35,85 +43,125 @@ interface MenuItem {
     MatGridListModule,
     MatProgressBarModule,
     MatChipsModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatMenuModule
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
-  title = 'MAYA Code Review System';
+  title = 'Sistema de Revisão de Código MAYA - Evertec';
   sidenavOpened = true;
 
   metrics = {
     totalAnalyses: 1247,
-    linesAnalyzed: '2.3M',
-    issuesFound: 183,
-    qualityScore: 94,
-    criticalIssues: 12,
-    resolvedIssues: 856,
-    pendingReviews: 23
+    linesAnalyzed: '2.8M',
+    issuesFound: 89,
+    qualityScore: 87,
+    criticalIssues: 5,
+    resolvedIssues: 342,
+    pendingReviews: 12
   };
 
   menuItems: MenuItem[] = [
     { name: 'Dashboard', icon: 'dashboard', route: '/dashboard' },
-    { name: 'Análises', icon: 'analytics', route: '/analyses', badge: 5 },
-    { name: 'Repositórios', icon: 'folder', route: '/repositories' },
-    { name: 'Code Review', icon: 'rate_review', route: '/reviews', badge: 12 },
-    { name: 'Relatórios', icon: 'assessment', route: '/reports' },
-    { name: 'Configurações', icon: 'settings', route: '/settings' },
-    { name: 'Usuários', icon: 'people', route: '/users' },
-    { name: 'Integrações', icon: 'extension', route: '/integrations' }
+    { name: 'Análise de Código', icon: 'analytics', route: '/analyses', badge: 3 },
+    { name: 'Regras de Qualidade', icon: 'rule', route: '/rules' },
+    { name: 'Relatórios', icon: 'assessment', route: '/reports', badge: 7 },
+    { name: 'Equipes', icon: 'groups', route: '/teams' },
+    { name: 'Integrações', icon: 'integration_instructions', route: '/integrations' },
+    { name: 'Segurança', icon: 'security', route: '/security', badge: 2 },
+    { name: 'Configurações', icon: 'settings', route: '/settings' }
   ];
 
   analysisData = [
     { 
       fileName: 'UserService.java', 
-      score: 96, 
+      score: 92, 
       issues: 2, 
-      type: 'Service',
-      lastAnalysis: '2 min ago',
+      type: 'Java',
+      lastAnalysis: '2 horas atrás',
       author: 'João Silva'
     },
     { 
-      fileName: 'PaymentController.java', 
-      score: 89, 
-      issues: 5, 
-      type: 'Controller',
-      lastAnalysis: '5 min ago',
+      fileName: 'payment-component.tsx', 
+      score: 88, 
+      issues: 4, 
+      type: 'TypeScript',
+      lastAnalysis: '4 horas atrás',
       author: 'Maria Santos'
     },
     { 
-      fileName: 'DatabaseConfig.java', 
-      score: 92, 
-      issues: 3, 
-      type: 'Configuration',
-      lastAnalysis: '10 min ago',
-      author: 'Pedro Oliveira'
+      fileName: 'api-controller.py', 
+      score: 95, 
+      issues: 1, 
+      type: 'Python',
+      lastAnalysis: '6 horas atrás',
+      author: 'Carlos Rodriguez'
     },
     { 
-      fileName: 'SecurityFilter.java', 
-      score: 88, 
-      issues: 7, 
-      type: 'Filter',
-      lastAnalysis: '15 min ago',
+      fileName: 'database-config.sql', 
+      score: 76, 
+      issues: 8, 
+      type: 'SQL',
+      lastAnalysis: '8 horas atrás',
       author: 'Ana Costa'
     },
     { 
-      fileName: 'ApiResponse.java', 
-      score: 95, 
-      issues: 1, 
-      type: 'DTO',
-      lastAnalysis: '20 min ago',
-      author: 'Carlos Lima'
+      fileName: 'security-utils.cs', 
+      score: 90, 
+      issues: 3, 
+      type: 'C#',
+      lastAnalysis: '1 dia atrás',
+      author: 'Pedro Lima'
     }
   ];
 
   recentActivities = [
-    { action: 'Nova análise iniciada', file: 'UserService.java', time: '2 min ago', type: 'analysis' },
-    { action: 'Code review aprovado', file: 'PaymentController.java', time: '5 min ago', type: 'review' },
-    { action: 'Issue corrigida', file: 'DatabaseConfig.java', time: '8 min ago', type: 'fix' },
-    { action: 'Nova branch detectada', file: 'feature/user-auth', time: '12 min ago', type: 'branch' },
-    { action: 'Deploy realizado', file: 'production', time: '30 min ago', type: 'deploy' }
+    { action: 'Nova análise executada', file: 'UserService.java', time: '2 min atrás', type: 'analysis' },
+    { action: 'Issue crítica corrigida', file: 'PaymentProcessor.java', time: '15 min atrás', type: 'fix' },
+    { action: 'Review de código finalizado', file: 'AuthController.ts', time: '1 hora atrás', type: 'review' },
+    { action: 'Alerta de segurança detectado', file: 'SecurityConfig.java', time: '2 horas atrás', type: 'alert' },
+    { action: 'Integração com GitLab atualizada', file: 'gitlab-config.yml', time: '3 horas atrás', type: 'integration' }
+  ];
+
+  additionalMetrics: AdditionalMetric[] = [
+    {
+      icon: 'priority_high',
+      value: '5',
+      label: 'Issues Críticas',
+      color: '#ff3366'
+    },
+    {
+      icon: 'check_circle',
+      value: '342',
+      label: 'Issues Resolvidas',
+      color: '#0066cc'
+    },
+    {
+      icon: 'rate_review',
+      value: '12',
+      label: 'Reviews Pendentes',
+      color: '#00cc66'
+    },
+    {
+      icon: 'speed',
+      value: '2.3s',
+      label: 'Tempo Médio',
+      color: '#4caf50'
+    },
+    {
+      icon: 'groups',
+      value: '15',
+      label: 'Usuários Ativos',
+      color: '#ff9800'
+    },
+    {
+      icon: 'security',
+      value: '98.5%',
+      label: 'Uptime Sistema',
+      color: '#9c27b0'
+    }
   ];
 
   constructor(private http: HttpClient, private router: Router) {}
@@ -141,8 +189,8 @@ export class AppComponent implements OnInit {
   }
 
   navigateTo(route: string) {
-    // Para agora, apenas mostrar o dashboard
     console.log('Navegando para:', route);
+    // Implementar navegação quando necessário
   }
 
   getScoreClass(score: number): string {
@@ -157,8 +205,8 @@ export class AppComponent implements OnInit {
       'analysis': 'analytics',
       'review': 'rate_review',
       'fix': 'build',
-      'branch': 'call_split',
-      'deploy': 'rocket_launch'
+      'alert': 'warning',
+      'integration': 'integration_instructions'
     };
     return icons[type] || 'info';
   }
@@ -166,10 +214,10 @@ export class AppComponent implements OnInit {
   getActivityColor(type: string): string {
     const colors: { [key: string]: string } = {
       'analysis': 'primary',
-      'review': 'accent',
-      'fix': 'warn',
-      'branch': 'primary',
-      'deploy': 'accent'
+      'review': 'primary',
+      'fix': 'accent',
+      'alert': 'warn',
+      'integration': 'primary'
     };
     return colors[type] || 'primary';
   }

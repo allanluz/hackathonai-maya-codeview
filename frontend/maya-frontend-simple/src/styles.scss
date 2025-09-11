@@ -1,4 +1,7 @@
-/* You can add global styles to this file, and also import other style files */
+/* Import Evertec Custom Theme */
+@import './styles/evertec-theme.scss';
+
+/* Global Styles */
 
 // Global styles
 * {
@@ -9,17 +12,65 @@
 
 html, body {
   height: 100%;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Inter', 'Roboto', sans-serif;
+  background: #f8f9fa;
+  color: #2c3e50;
+  scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
-  background-color: #f5f5f5;
+  background-color: #f8f9fa;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f3f4;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #0066cc, #004499);
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #004499, #0066cc);
 }
 
 // Utility classes
 .text-center {
   text-align: center;
+}
+
+.text-primary {
+  color: #0066cc !important;
+}
+
+.text-accent {
+  color: #00cc66 !important;
+}
+
+.text-warn {
+  color: #ff3366 !important;
+}
+
+.bg-primary {
+  background-color: #0066cc !important;
+}
+
+.bg-accent {
+  background-color: #00cc66 !important;
+}
+
+.bg-light {
+  background-color: #f8f9fa !important;
 }
 
 .mb-1 { margin-bottom: 0.5rem; }
@@ -31,3 +82,62 @@ body {
 .mt-2 { margin-top: 1rem; }
 .mt-3 { margin-top: 1.5rem; }
 .mt-4 { margin-top: 2rem; }
+
+/* Animation Classes */
+.fade-in {
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+.slide-up {
+  animation: slideUp 0.6s ease-out;
+}
+
+.scale-in {
+  animation: scaleIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0; 
+    transform: translateY(30px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+@keyframes scaleIn {
+  from { 
+    opacity: 0; 
+    transform: scale(0.9); 
+  }
+  to { 
+    opacity: 1; 
+    transform: scale(1); 
+  }
+}
+
+/* Enhanced Focus Styles */
+.mat-mdc-button:focus,
+.mat-mdc-icon-button:focus,
+.mat-mdc-card:focus {
+  outline: 2px solid #0066cc;
+  outline-offset: 2px;
+}
+
+/* Print Styles */
+@media print {
+  .sidenav, .toolbar, .nav-item {
+    display: none !important;
+  }
+  
+  .main-content {
+    margin-left: 0 !important;
+  }
+}
