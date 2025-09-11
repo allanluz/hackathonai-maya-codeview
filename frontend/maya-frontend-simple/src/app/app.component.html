@@ -1,316 +1,226 @@
-<mat-sidenav-container class="sidenav-container">
-  <!-- Professional Sidebar -->
-  <mat-sidenav #sidenav 
-               [opened]="sidenavOpened" 
-               mode="side" 
-               class="sidenav"
-               fixedInViewport="true">
+<!-- MAYA Code Review System - Clean Professional Interface -->
+<div class="app-container">
+  
+  <!-- Top Navigation Bar -->
+  <header class="top-navbar">
+    <div class="navbar-brand">
+      <mat-icon class="brand-icon">code</mat-icon>
+      <h1 class="brand-title">MAYA</h1>
+      <span class="brand-subtitle">Code Review System</span>
+    </div>
     
-    <!-- Logo Section -->
-    <div class="sidenav-header">
-      <div class="logo-section">
-        <mat-icon class="logo-icon">analytics</mat-icon>
-        <div>
-          <h2 class="logo-text">MAYA</h2>
-          <p class="company-name">Code Review System</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Navigation Menu -->
-    <nav class="nav-list">
-      <a class="nav-item active" (click)="navigateTo('/dashboard')">
-        <mat-icon>dashboard</mat-icon>
-        <span>Dashboard</span>
-      </a>
-      
-      <a class="nav-item" (click)="navigateTo('/analysis')">
-        <mat-icon>code</mat-icon>
-        <span>Code Analysis</span>
-        <span class="nav-badge">3</span>
-      </a>
-      
-      <a class="nav-item" (click)="navigateTo('/reviews')">
-        <mat-icon>rate_review</mat-icon>
-        <span>Code Reviews</span>
-        <span class="nav-badge">7</span>
-      </a>
-      
-      <a class="nav-item" (click)="navigateTo('/quality')">
-        <mat-icon>verified</mat-icon>
-        <span>Quality Rules</span>
-      </a>
-      
-      <a class="nav-item" (click)="navigateTo('/reports')">
-        <mat-icon>assessment</mat-icon>
-        <span>Reports</span>
-      </a>
-      
-      <a class="nav-item" (click)="navigateTo('/teams')">
-        <mat-icon>groups</mat-icon>
-        <span>Teams</span>
-      </a>
-      
-      <a class="nav-item" (click)="navigateTo('/settings')">
-        <mat-icon>settings</mat-icon>
-        <span>Settings</span>
-      </a>
-    </nav>
-
-    <!-- User Section -->
-    <div class="user-section">
-      <div class="user-item">
-        <mat-icon>account_circle</mat-icon>
-        <span>Admin User</span>
-        <mat-icon>expand_more</mat-icon>
-      </div>
-    </div>
-  </mat-sidenav>
-
-  <!-- Main Content -->
-  <mat-sidenav-content class="main-content">
-    <!-- Header -->
-    <mat-toolbar class="toolbar">
-      <button mat-icon-button (click)="toggleSidenav()">
-        <mat-icon>menu</mat-icon>
+    <div class="navbar-actions">
+      <button mat-icon-button class="action-btn">
+        <mat-icon matBadge="3" matBadgeColor="warn">notifications</mat-icon>
       </button>
-      <span class="toolbar-title">{{ title }}</span>
-      <span class="spacer"></span>
-      <div class="toolbar-actions">
-        <button mat-icon-button>
-          <mat-icon matBadge="3" matBadgeColor="warn">notifications</mat-icon>
-        </button>
-        <button mat-icon-button>
-          <mat-icon>search</mat-icon>
-        </button>
-        <button mat-icon-button>
-          <mat-icon>account_circle</mat-icon>
-        </button>
-      </div>
-    </mat-toolbar>
+      <button mat-icon-button class="action-btn">
+        <mat-icon>help_outline</mat-icon>
+      </button>
+      <button mat-icon-button class="action-btn">
+        <mat-icon>account_circle</mat-icon>
+      </button>
+    </div>
+  </header>
 
-    <!-- Dashboard Content -->
-    <div class="dashboard-container">
+  <!-- Main Layout -->
+  <div class="main-layout">
+    
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <nav class="sidebar-nav">
+        <a class="nav-link active" (click)="navigateTo('/dashboard')">
+          <mat-icon>dashboard</mat-icon>
+          <span>Dashboard</span>
+        </a>
+        <a class="nav-link" (click)="navigateTo('/analysis')">
+          <mat-icon>analytics</mat-icon>
+          <span>Code Analysis</span>
+          <span class="badge">3</span>
+        </a>
+        <a class="nav-link" (click)="navigateTo('/reviews')">
+          <mat-icon>rate_review</mat-icon>
+          <span>Reviews</span>
+          <span class="badge">7</span>
+        </a>
+        <a class="nav-link" (click)="navigateTo('/quality')">
+          <mat-icon>verified</mat-icon>
+          <span>Quality Rules</span>
+        </a>
+        <a class="nav-link" (click)="navigateTo('/reports')">
+          <mat-icon>assessment</mat-icon>
+          <span>Reports</span>
+        </a>
+        <a class="nav-link" (click)="navigateTo('/settings')">
+          <mat-icon>settings</mat-icon>
+          <span>Settings</span>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Content Area -->
+    <main class="content-area">
       
-      <!-- Welcome Section -->
-      <div class="welcome-section">
-        <h1 class="section-title">Welcome to MAYA</h1>
-        <p class="section-subtitle">Your intelligent code review and quality assurance platform</p>
+      <!-- Page Header -->
+      <div class="page-header">
+        <h2 class="page-title">Dashboard Overview</h2>
+        <p class="page-subtitle">Monitor your code quality and review progress</p>
       </div>
-      
-      <!-- Key Metrics -->
-      <div class="metrics-grid">
+
+      <!-- Stats Cards -->
+      <div class="stats-grid">
         
-        <mat-card class="metric-card">
-          <mat-card-content>
-            <div class="metric-header">
-              <div class="metric-info">
-                <div class="metric-icon primary">
-                  <mat-icon>analytics</mat-icon>
-                </div>
-                <div class="metric-text">
-                  <h3>Total Analyses</h3>
-                  <div class="metric-value">{{ metrics.totalAnalyses | number }}</div>
-                </div>
-              </div>
-              <div class="metric-change positive">
-                <mat-icon>trending_up</mat-icon>
-                +12%
-              </div>
-            </div>
-          </mat-card-content>
-        </mat-card>
+        <div class="stat-card primary">
+          <div class="stat-icon">
+            <mat-icon>analytics</mat-icon>
+          </div>
+          <div class="stat-content">
+            <div class="stat-value">{{ metrics.totalAnalyses | number }}</div>
+            <div class="stat-label">Total Analyses</div>
+            <div class="stat-change positive">+12% this week</div>
+          </div>
+        </div>
 
-        <mat-card class="metric-card">
-          <mat-card-content>
-            <div class="metric-header">
-              <div class="metric-info">
-                <div class="metric-icon success">
-                  <mat-icon>code</mat-icon>
-                </div>
-                <div class="metric-text">
-                  <h3>Lines Analyzed</h3>
-                  <div class="metric-value">{{ metrics.linesAnalyzed }}</div>
-                </div>
-              </div>
-              <div class="metric-change positive">
-                <mat-icon>trending_up</mat-icon>
-                +8%
-              </div>
-            </div>
-          </mat-card-content>
-        </mat-card>
+        <div class="stat-card success">
+          <div class="stat-icon">
+            <mat-icon>code</mat-icon>
+          </div>
+          <div class="stat-content">
+            <div class="stat-value">{{ metrics.linesAnalyzed }}</div>
+            <div class="stat-label">Lines Analyzed</div>
+            <div class="stat-change positive">+8% this week</div>
+          </div>
+        </div>
 
-        <mat-card class="metric-card">
-          <mat-card-content>
-            <div class="metric-header">
-              <div class="metric-info">
-                <div class="metric-icon warning">
-                  <mat-icon>bug_report</mat-icon>
-                </div>
-                <div class="metric-text">
-                  <h3>Issues Found</h3>
-                  <div class="metric-value">{{ metrics.issuesFound | number }}</div>
-                </div>
-              </div>
-              <div class="metric-change negative">
-                <mat-icon>trending_down</mat-icon>
-                -5%
-              </div>
-            </div>
-          </mat-card-content>
-        </mat-card>
+        <div class="stat-card warning">
+          <div class="stat-icon">
+            <mat-icon>bug_report</mat-icon>
+          </div>
+          <div class="stat-content">
+            <div class="stat-value">{{ metrics.issuesFound | number }}</div>
+            <div class="stat-label">Issues Found</div>
+            <div class="stat-change negative">-5% this week</div>
+          </div>
+        </div>
 
-        <mat-card class="metric-card">
-          <mat-card-content>
-            <div class="metric-header">
-              <div class="metric-info">
-                <div class="metric-icon primary">
-                  <mat-icon>grade</mat-icon>
-                </div>
-                <div class="metric-text">
-                  <h3>Quality Score</h3>
-                  <div class="metric-value">{{ metrics.qualityScore }}%</div>
-                </div>
-              </div>
-              <div class="metric-change positive">
-                <mat-icon>trending_up</mat-icon>
-                +3%
-              </div>
-            </div>
-          </mat-card-content>
-        </mat-card>
+        <div class="stat-card info">
+          <div class="stat-icon">
+            <mat-icon>grade</mat-icon>
+          </div>
+          <div class="stat-content">
+            <div class="stat-value">{{ metrics.qualityScore }}%</div>
+            <div class="stat-label">Quality Score</div>
+            <div class="stat-change positive">+3% this week</div>
+          </div>
+        </div>
 
       </div>
 
-      <!-- Content Grid -->
-      <div class="content-grid">
+      <!-- Data Tables -->
+      <div class="tables-grid">
         
-        <!-- Recent Analysis -->
-        <mat-card class="analysis-card">
-          <mat-card-header>
-            <mat-card-title>
+        <!-- Recent Analysis Table -->
+        <div class="data-table">
+          <div class="table-header">
+            <h3 class="table-title">
               <mat-icon>analytics</mat-icon>
               Recent Code Analysis
-            </mat-card-title>
-            <div class="card-actions">
-              <button mat-icon-button>
-                <mat-icon>refresh</mat-icon>
-              </button>
-              <button mat-button color="primary">View All</button>
-            </div>
-          </mat-card-header>
+            </h3>
+            <button mat-button color="primary">View All</button>
+          </div>
           
-          <mat-card-content>
-            <div class="analysis-list">
-              <div class="analysis-item" *ngFor="let item of analysisData">
+          <div class="table-content">
+            <div class="table-row header-row">
+              <div class="col-file">File</div>
+              <div class="col-author">Author</div>
+              <div class="col-score">Score</div>
+              <div class="col-issues">Issues</div>
+              <div class="col-time">Time</div>
+            </div>
+            
+            <div class="table-row" *ngFor="let item of analysisData">
+              <div class="col-file">
+                <mat-icon class="file-icon">description</mat-icon>
                 <div class="file-info">
-                  <div class="file-name">
-                    <mat-icon class="file-icon">description</mat-icon>
-                    {{ item.fileName }}
-                  </div>
-                  <div class="file-details">
-                    <span class="file-type">{{ item.type }}</span>
-                    <span>by {{ item.author }}</span>
-                    <span>{{ item.lastAnalysis }}</span>
-                  </div>
-                </div>
-                <div class="analysis-score">
-                  <div class="score-badge" [class]="getScoreClass(item.score)">
-                    {{ item.score }}%
-                  </div>
-                  <div class="issues-count">
-                    <mat-icon>error_outline</mat-icon>
-                    {{ item.issues }} issues
-                  </div>
+                  <div class="file-name">{{ item.fileName }}</div>
+                  <div class="file-type">{{ item.type }}</div>
                 </div>
               </div>
+              <div class="col-author">{{ item.author }}</div>
+              <div class="col-score">
+                <span class="score-badge" [class]="getScoreClass(item.score)">
+                  {{ item.score }}%
+                </span>
+              </div>
+              <div class="col-issues">
+                <span class="issues-count">{{ item.issues }}</span>
+              </div>
+              <div class="col-time">{{ item.lastAnalysis }}</div>
             </div>
-          </mat-card-content>
-        </mat-card>
+          </div>
+        </div>
 
-        <!-- Recent Activity -->
-        <mat-card class="activity-card">
-          <mat-card-header>
-            <mat-card-title>
+        <!-- Recent Activity Table -->
+        <div class="data-table">
+          <div class="table-header">
+            <h3 class="table-title">
               <mat-icon>history</mat-icon>
               Recent Activity
-            </mat-card-title>
-          </mat-card-header>
+            </h3>
+          </div>
           
-          <mat-card-content>
-            <div class="activity-list">
-              <div class="activity-item" *ngFor="let activity of recentActivities">
-                <div class="activity-icon" [class]="getActivityClass(activity.type)">
-                  <mat-icon>{{ getActivityIcon(activity.type) }}</mat-icon>
-                </div>
-                <div class="activity-content">
-                  <div class="activity-action">{{ activity.action }}</div>
-                  <div class="activity-file">{{ activity.file }}</div>
-                  <div class="activity-time">{{ activity.time }}</div>
-                </div>
+          <div class="table-content">
+            <div class="activity-row" *ngFor="let activity of recentActivities">
+              <div class="activity-icon" [class]="getActivityClass(activity.type)">
+                <mat-icon>{{ getActivityIcon(activity.type) }}</mat-icon>
+              </div>
+              <div class="activity-details">
+                <div class="activity-action">{{ activity.action }}</div>
+                <div class="activity-file">{{ activity.file }}</div>
+                <div class="activity-time">{{ activity.time }}</div>
               </div>
             </div>
-          </mat-card-content>
-        </mat-card>
+          </div>
+        </div>
 
       </div>
 
-      <!-- Additional Metrics -->
-      <div class="additional-metrics">
+      <!-- Quick Metrics -->
+      <div class="quick-metrics">
         
-        <mat-card class="small-metric">
-          <mat-card-content>
-            <div class="small-metric-content">
-              <mat-icon style="color: var(--error-color);">priority_high</mat-icon>
-              <div>
-                <div class="small-metric-value">{{ metrics.criticalIssues }}</div>
-                <div class="small-metric-label">Critical Issues</div>
-              </div>
-            </div>
-          </mat-card-content>
-        </mat-card>
+        <div class="metric-item">
+          <mat-icon class="metric-icon critical">priority_high</mat-icon>
+          <div class="metric-info">
+            <div class="metric-number">{{ metrics.criticalIssues }}</div>
+            <div class="metric-text">Critical Issues</div>
+          </div>
+        </div>
 
-        <mat-card class="small-metric">
-          <mat-card-content>
-            <div class="small-metric-content">
-              <mat-icon style="color: var(--success-color);">check_circle</mat-icon>
-              <div>
-                <div class="small-metric-value">{{ metrics.resolvedIssues }}</div>
-                <div class="small-metric-label">Resolved Issues</div>
-              </div>
-            </div>
-          </mat-card-content>
-        </mat-card>
+        <div class="metric-item">
+          <mat-icon class="metric-icon success">check_circle</mat-icon>
+          <div class="metric-info">
+            <div class="metric-number">{{ metrics.resolvedIssues }}</div>
+            <div class="metric-text">Resolved Issues</div>
+          </div>
+        </div>
 
-        <mat-card class="small-metric">
-          <mat-card-content>
-            <div class="small-metric-content">
-              <mat-icon style="color: var(--primary-color);">rate_review</mat-icon>
-              <div>
-                <div class="small-metric-value">{{ metrics.pendingReviews }}</div>
-                <div class="small-metric-label">Pending Reviews</div>
-              </div>
-            </div>
-          </mat-card-content>
-        </mat-card>
+        <div class="metric-item">
+          <mat-icon class="metric-icon primary">rate_review</mat-icon>
+          <div class="metric-info">
+            <div class="metric-number">{{ metrics.pendingReviews }}</div>
+            <div class="metric-text">Pending Reviews</div>
+          </div>
+        </div>
 
-        <mat-card class="small-metric">
-          <mat-card-content>
-            <div class="small-metric-content">
-              <mat-icon style="color: var(--warning-color);">speed</mat-icon>
-              <div>
-                <div class="small-metric-value">2.3s</div>
-                <div class="small-metric-label">Avg Response</div>
-              </div>
-            </div>
-          </mat-card-content>
-        </mat-card>
+        <div class="metric-item">
+          <mat-icon class="metric-icon info">speed</mat-icon>
+          <div class="metric-info">
+            <div class="metric-number">2.3s</div>
+            <div class="metric-text">Avg Response</div>
+          </div>
+        </div>
 
       </div>
 
-    </div>
-  </mat-sidenav-content>
-</mat-sidenav-container>
-
-<router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

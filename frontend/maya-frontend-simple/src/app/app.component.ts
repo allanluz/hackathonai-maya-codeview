@@ -1,225 +1,119 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet, Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatListModule } from '@angular/material/list';
+import { RouterOutlet } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatChipsModule } from '@angular/material/chips';
 import { MatBadgeModule } from '@angular/material/badge';
-import { MatMenuModule } from '@angular/material/menu';
-
-interface MenuItem {
-  name: string;
-  icon: string;
-  route: string;
-  badge?: number;
-}
-
-interface AdditionalMetric {
-  icon: string;
-  value: string;
-  label: string;
-  color: string;
-}
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
-    CommonModule, 
+    CommonModule,
     RouterOutlet,
-    MatSidenavModule,
-    MatToolbarModule,
-    MatListModule,
     MatIconModule,
     MatButtonModule,
-    MatCardModule,
-    MatGridListModule,
-    MatProgressBarModule,
-    MatChipsModule,
-    MatBadgeModule,
-    MatMenuModule
+    MatBadgeModule
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent implements OnInit {
-  title = 'Sistema de Revisão de Código MAYA - Evertec';
-  sidenavOpened = true;
+export class AppComponent {
+  title = 'MAYA Dashboard';
 
   metrics = {
     totalAnalyses: 1247,
-    linesAnalyzed: '2.8M',
+    linesAnalyzed: '2.4M',
     issuesFound: 89,
-    qualityScore: 87,
-    criticalIssues: 5,
-    resolvedIssues: 342,
-    pendingReviews: 12
+    qualityScore: 94,
+    criticalIssues: 12,
+    resolvedIssues: 156,
+    pendingReviews: 23
   };
 
-  menuItems: MenuItem[] = [
-    { name: 'Dashboard', icon: 'dashboard', route: '/dashboard' },
-    { name: 'Análise de Código', icon: 'analytics', route: '/analyses', badge: 3 },
-    { name: 'Regras de Qualidade', icon: 'rule', route: '/rules' },
-    { name: 'Relatórios', icon: 'assessment', route: '/reports', badge: 7 },
-    { name: 'Equipes', icon: 'groups', route: '/teams' },
-    { name: 'Integrações', icon: 'integration_instructions', route: '/integrations' },
-    { name: 'Segurança', icon: 'security', route: '/security', badge: 2 },
-    { name: 'Configurações', icon: 'settings', route: '/settings' }
-  ];
-
   analysisData = [
-    { 
-      fileName: 'UserService.java', 
-      score: 92, 
-      issues: 2, 
+    {
+      fileName: 'AuthService.java',
       type: 'Java',
-      lastAnalysis: '2 horas atrás',
-      author: 'João Silva'
+      author: 'Maria Silva',
+      lastAnalysis: '2 mins ago',
+      score: 95,
+      issues: 2
     },
-    { 
-      fileName: 'payment-component.tsx', 
-      score: 88, 
-      issues: 4, 
+    {
+      fileName: 'UserController.ts',
       type: 'TypeScript',
-      lastAnalysis: '4 horas atrás',
-      author: 'Maria Santos'
+      author: 'João Santos',
+      lastAnalysis: '15 mins ago',
+      score: 88,
+      issues: 5
     },
-    { 
-      fileName: 'api-controller.py', 
-      score: 95, 
-      issues: 1, 
+    {
+      fileName: 'PaymentService.py',
       type: 'Python',
-      lastAnalysis: '6 horas atrás',
-      author: 'Carlos Rodriguez'
+      author: 'Ana Costa',
+      lastAnalysis: '1 hour ago',
+      score: 92,
+      issues: 3
     },
-    { 
-      fileName: 'database-config.sql', 
-      score: 76, 
-      issues: 8, 
-      type: 'SQL',
-      lastAnalysis: '8 horas atrás',
-      author: 'Ana Costa'
-    },
-    { 
-      fileName: 'security-utils.cs', 
-      score: 90, 
-      issues: 3, 
+    {
+      fileName: 'DatabaseUtils.cs',
       type: 'C#',
-      lastAnalysis: '1 dia atrás',
-      author: 'Pedro Lima'
+      author: 'Pedro Lima',
+      lastAnalysis: '2 hours ago',
+      score: 76,
+      issues: 8
     }
   ];
 
   recentActivities = [
-    { action: 'Nova análise executada', file: 'UserService.java', time: '2 min atrás', type: 'analysis' },
-    { action: 'Issue crítica corrigida', file: 'PaymentProcessor.java', time: '15 min atrás', type: 'fix' },
-    { action: 'Review de código finalizado', file: 'AuthController.ts', time: '1 hora atrás', type: 'review' },
-    { action: 'Alerta de segurança detectado', file: 'SecurityConfig.java', time: '2 horas atrás', type: 'alert' },
-    { action: 'Integração com GitLab atualizada', file: 'gitlab-config.yml', time: '3 horas atrás', type: 'integration' }
-  ];
-
-  additionalMetrics: AdditionalMetric[] = [
     {
-      icon: 'priority_high',
-      value: '5',
-      label: 'Issues Críticas',
-      color: '#ff3366'
+      type: 'analysis',
+      action: 'Code analysis completed',
+      file: 'AuthService.java',
+      time: '2 minutes ago'
     },
     {
-      icon: 'check_circle',
-      value: '342',
-      label: 'Issues Resolvidas',
-      color: '#0066cc'
+      type: 'review',
+      action: 'Code review approved',
+      file: 'UserController.ts',
+      time: '15 minutes ago'
     },
     {
-      icon: 'rate_review',
-      value: '12',
-      label: 'Reviews Pendentes',
-      color: '#00cc66'
+      type: 'issue',
+      action: 'Critical issue found',
+      file: 'PaymentService.py',
+      time: '1 hour ago'
     },
     {
-      icon: 'speed',
-      value: '2.3s',
-      label: 'Tempo Médio',
-      color: '#4caf50'
+      type: 'fix',
+      action: 'Issue resolved',
+      file: 'DatabaseUtils.cs',
+      time: '2 hours ago'
     },
     {
-      icon: 'groups',
-      value: '15',
-      label: 'Usuários Ativos',
-      color: '#ff9800'
-    },
-    {
-      icon: 'security',
-      value: '98.5%',
-      label: 'Uptime Sistema',
-      color: '#9c27b0'
+      type: 'analysis',
+      action: 'New analysis started',
+      file: 'SecurityModule.java',
+      time: '3 hours ago'
     }
   ];
 
-  constructor(private http: HttpClient, private router: Router) {}
-
-  ngOnInit() {
+  constructor(private http: HttpClient) {
     this.loadDashboardData();
   }
 
-  loadDashboardData() {
-    // Tentar carregar dados do backend
-    this.http.get('http://localhost:8080/api/dashboard').subscribe({
-      next: (data: any) => {
-        console.log('Dados do backend carregados:', data);
-        // Atualizar métricas com dados reais se disponível
-      },
-      error: (error) => {
-        console.log('Backend não disponível, usando dados mockados:', error);
-        // Manter dados mockados
-      }
-    });
-  }
-
-  toggleSidenav() {
-    this.sidenavOpened = !this.sidenavOpened;
-  }
-
   navigateTo(route: string) {
-    console.log('Navegando para:', route);
-    // Implementar navegação quando necessário
+    console.log('Navigating to:', route);
+    // Implement navigation logic here
   }
 
   getScoreClass(score: number): string {
     if (score >= 90) return 'score-excellent';
-    if (score >= 80) return 'score-good';
-    if (score >= 70) return 'score-fair';
+    if (score >= 75) return 'score-good';
+    if (score >= 60) return 'score-fair';
     return 'score-poor';
-  }
-
-  getActivityIcon(type: string): string {
-    const icons: { [key: string]: string } = {
-      'analysis': 'analytics',
-      'review': 'rate_review',
-      'fix': 'build',
-      'alert': 'warning',
-      'integration': 'integration_instructions'
-    };
-    return icons[type] || 'info';
-  }
-
-  getActivityColor(type: string): string {
-    const colors: { [key: string]: string } = {
-      'analysis': 'primary',
-      'review': 'primary',
-      'fix': 'accent',
-      'alert': 'warn',
-      'integration': 'primary'
-    };
-    return colors[type] || 'primary';
   }
 
   getActivityClass(type: string): string {
@@ -232,5 +126,31 @@ export class AppComponent implements OnInit {
       case 'integration': return 'activity-integration';
       default: return 'activity-default';
     }
+  }
+
+  getActivityIcon(type: string): string {
+    switch (type) {
+      case 'analysis': return 'analytics';
+      case 'review': return 'rate_review';
+      case 'issue': return 'error';
+      case 'fix': return 'build';
+      case 'alert': return 'warning';
+      case 'integration': return 'integration_instructions';
+      default: return 'info';
+    }
+  }
+
+  private loadDashboardData() {
+    this.http.get<any>('http://localhost:8080/api/dashboard').subscribe({
+      next: (data) => {
+        console.log('Dashboard data loaded:', data);
+        if (data) {
+          this.metrics = { ...this.metrics, ...data };
+        }
+      },
+      error: (error) => {
+        console.warn('Could not load dashboard data, using mock data:', error);
+      }
+    });
   }
 }

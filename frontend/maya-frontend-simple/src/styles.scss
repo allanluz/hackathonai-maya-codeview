@@ -1,5 +1,42 @@
 /* Import Simple Professional Theme */
-@import './styles/simple-theme.scss';
+/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #f8fafc;
+  color: #1e293b;
+  line-height: 1.6;
+}
+
+html, body {
+  height: 100%;
+}
+
+/* Utility classes */
+.text-primary { color: #3b82f6; }
+.text-success { color: #22c55e; }
+.text-warning { color: #f59e0b; }
+.text-error { color: #ef4444; }
+.text-muted { color: #64748b; }
+
+.bg-primary { background-color: #3b82f6; }
+.bg-success { background-color: #22c55e; }
+.bg-warning { background-color: #f59e0b; }
+.bg-error { background-color: #ef4444; }
+
+.rounded { border-radius: 8px; }
+.rounded-lg { border-radius: 12px; }
+.shadow { box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+.shadow-lg { box-shadow: 0 4px 8px rgba(0,0,0,0.15); }
 
 /* Global Styles */
 
