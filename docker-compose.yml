@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  # Banco SQL Server para desenvolvimento
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: maya-sqlserver
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Maya@2024!
+      - MSSQL_PID=Developer
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+    networks:
+      - maya-network
+
+  # Aplicação Spring Boot (backend)
+  maya-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: maya-backend
+    depends_on:
+      - sqlserver
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - DB_URL=jdbc:sqlserver://sqlserver:1433;databaseName=maya;encrypt=false;trustServerCertificate=true
+      - DB_USERNAME=sa
+      - DB_PASSWORD=Maya@2024!
+      - TFS_BASE_URL=https://tfs.sinqia.com.br
+      - TFS_ORGANIZATION=sinqia
+      - AI_ENDPOINT=https://api.openai.com/v1/chat/completions
+    ports:
+      - "8080:8080"
+    networks:
+      - maya-network
+    volumes:
+      - ./logs:/var/log/maya
+    restart: unless-stopped
+
+  # Frontend Angular (futuro)
+  # maya-frontend:
+  #   build:
+  #     context: ./frontend
+  #     dockerfile: Dockerfile
+  #   container_name: maya-frontend
+  #   depends_on:
+  #     - maya-backend
+  #   ports:
+  #     - "4200:80"
+  #   networks:
+  #     - maya-network
+  #   restart: unless-stopped
+
+volumes:
+  sqlserver_data:
+    driver: local
+
+networks:
+  maya-network:
+    driver: bridge
