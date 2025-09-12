@@ -181,88 +181,201 @@ import { DashboardService, DashboardOverview, RepositoryRanking, DeveloperRankin
   `,
   styles: [`
     .dashboard-container {
-      padding: 24px;
-      max-width: 1200px;
+      padding: var(--space-2xl);
+      max-width: 1400px;
       margin: 0 auto;
+      background: var(--bg-secondary);
     }
 
     h1 {
-      margin-bottom: 24px;
-      color: #333;
+      margin-bottom: var(--space-2xl);
+      color: var(--text-primary);
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-align: center;
+      letter-spacing: -0.02em;
     }
 
     .overview-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 16px;
-      margin-bottom: 24px;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: var(--space-xl);
+      margin-bottom: var(--space-3xl);
     }
 
     .metric-card {
-      min-height: 140px;
+      background: var(--bg-surface);
+      border: 1px solid var(--color-gray-200);
+      border-radius: var(--radius-2xl);
+      box-shadow: var(--shadow-lg);
+      transition: all var(--animation-duration-normal) var(--animation-easing);
+      overflow: hidden;
+      position: relative;
+      min-height: 180px;
+    }
+
+    .metric-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+    }
+
+    .metric-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-2xl);
+      border-color: var(--color-primary);
     }
 
     .metric-card.alert {
-      background: #fff3cd;
-      border-left: 4px solid #ffc107;
+      background: linear-gradient(135deg, #fef7ed 0%, #fed7aa 100%);
+      border-color: var(--color-warning);
+      animation: pulse 2s infinite;
+    }
+
+    .metric-card.alert::before {
+      background: var(--color-warning);
     }
 
     .metric-card mat-card-header {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: var(--space-md);
+      padding: var(--space-xl) var(--space-xl) var(--space-md);
+    }
+
+    .metric-card mat-icon {
+      width: 48px;
+      height: 48px;
+      font-size: 2rem;
+      background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+      color: var(--text-inverse);
+      border-radius: var(--radius-xl);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-md);
+    }
+
+    .metric-card mat-card-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin: 0;
     }
 
     .metric-value {
-      font-size: 2.5rem;
-      font-weight: bold;
-      color: #2196f3;
-      margin: 8px 0;
+      font-size: 3rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin: var(--space-md) 0;
+      line-height: 1;
+      letter-spacing: -0.02em;
     }
 
     .metric-subtitle {
-      color: #666;
-      font-size: 0.9rem;
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      font-weight: 500;
     }
 
     .loading-container {
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 48px;
+      justify-content: center;
+      padding: var(--space-3xl);
+      background: var(--bg-surface);
+      border-radius: var(--radius-2xl);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .loading-container p {
+      margin-top: var(--space-lg);
+      color: var(--text-secondary);
+      font-weight: 500;
     }
 
     .ranking-card,
     .alerts-card,
     .actions-card {
-      margin-bottom: 24px;
+      background: var(--bg-surface);
+      border: 1px solid var(--color-gray-200);
+      border-radius: var(--radius-2xl);
+      box-shadow: var(--shadow-lg);
+      margin-bottom: var(--space-2xl);
+      overflow: hidden;
+      transition: all var(--animation-duration-normal) var(--animation-easing);
+    }
+
+    .ranking-card:hover,
+    .alerts-card:hover,
+    .actions-card:hover {
+      box-shadow: var(--shadow-xl);
+      border-color: var(--color-primary-light);
+    }
+
+    .ranking-card mat-card-header,
+    .alerts-card mat-card-header,
+    .actions-card mat-card-header {
+      background: linear-gradient(135deg, var(--color-gray-50), var(--color-gray-100));
+      border-bottom: 1px solid var(--color-gray-200);
+      padding: var(--space-xl);
+    }
+
+    .ranking-card mat-icon,
+    .alerts-card mat-icon,
+    .actions-card mat-icon {
+      color: var(--color-primary);
+      margin-right: var(--space-md);
     }
 
     .ranking-list {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: var(--space-md);
+      padding: var(--space-lg);
     }
 
     .ranking-item {
       display: flex;
       align-items: center;
-      padding: 12px;
-      background: #f8f9fa;
-      border-radius: 8px;
-      gap: 16px;
+      padding: var(--space-lg);
+      background: linear-gradient(135deg, var(--bg-surface), var(--color-gray-50));
+      border: 1px solid var(--color-gray-200);
+      border-radius: var(--radius-xl);
+      gap: var(--space-lg);
+      transition: all var(--animation-duration-normal) var(--animation-easing);
+    }
+
+    .ranking-item:hover {
+      transform: translateX(8px);
+      border-color: var(--color-primary);
+      box-shadow: var(--shadow-md);
     }
 
     .rank {
-      background: #2196f3;
-      color: white;
-      width: 32px;
-      height: 32px;
+      background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+      color: var(--text-inverse);
+      width: 48px;
+      height: 48px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: bold;
+      font-weight: 700;
+      font-size: 1.125rem;
+      box-shadow: var(--shadow-md);
     }
 
     .info {
@@ -270,41 +383,52 @@ import { DashboardService, DashboardOverview, RepositoryRanking, DeveloperRankin
     }
 
     .name {
-      font-weight: 500;
-      margin-bottom: 4px;
+      font-weight: 600;
+      font-size: 1.125rem;
+      color: var(--text-primary);
+      margin-bottom: var(--space-xs);
     }
 
     .stats {
-      color: #666;
-      font-size: 0.9rem;
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      font-weight: 500;
     }
 
     .improvement.positive {
-      color: #4caf50;
-      font-weight: bold;
+      color: var(--color-success);
+      font-weight: 700;
+      background: var(--color-gray-100);
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--radius-md);
     }
 
     .improvement.neutral {
-      color: #666;
+      color: var(--text-tertiary);
     }
 
     .alert-item {
       display: flex;
       align-items: flex-start;
-      gap: 12px;
-      padding: 12px;
-      border-radius: 8px;
-      margin-bottom: 8px;
+      gap: var(--space-lg);
+      padding: var(--space-lg);
+      border-radius: var(--radius-xl);
+      margin-bottom: var(--space-md);
+      transition: all var(--animation-duration-normal) var(--animation-easing);
+    }
+
+    .alert-item:hover {
+      transform: translateX(4px);
     }
 
     .alert-item.warning {
-      background: #fff3cd;
-      border-left: 4px solid #ffc107;
+      background: linear-gradient(135deg, #fffbeb, #fef3c7);
+      border: 1px solid var(--color-warning);
     }
 
     .alert-item.error {
-      background: #f8d7da;
-      border-left: 4px solid #dc3545;
+      background: linear-gradient(135deg, #fef2f2, #fecaca);
+      border: 1px solid var(--color-error);
     }
 
     .alert-content {
@@ -312,38 +436,128 @@ import { DashboardService, DashboardOverview, RepositoryRanking, DeveloperRankin
     }
 
     .alert-message {
-      font-weight: 500;
-      margin-bottom: 4px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: var(--space-xs);
     }
 
     .alert-details {
-      color: #666;
-      font-size: 0.9rem;
-      margin-bottom: 4px;
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      margin-bottom: var(--space-xs);
     }
 
     .alert-time {
-      color: #999;
+      color: var(--text-tertiary);
       font-size: 0.8rem;
     }
 
     .action-buttons {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 12px;
+      gap: var(--space-lg);
+      padding: var(--space-xl);
     }
 
     .action-buttons button {
-      height: 48px;
+      height: 64px;
+      border-radius: var(--radius-xl);
+      font-weight: 600;
+      font-size: 1rem;
+      transition: all var(--animation-duration-normal) var(--animation-easing);
+      box-shadow: var(--shadow-md);
+    }
+
+    .action-buttons button:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-xl);
     }
 
     .action-buttons mat-icon {
-      margin-right: 8px;
+      margin-right: var(--space-md);
+      font-size: 1.25rem;
     }
 
-    .status-active { background: #4caf50; color: white; }
-    .status-inactive { background: #9e9e9e; color: white; }
-    .status-warning { background: #ff9800; color: white; }
+    .status-active { 
+      background: linear-gradient(135deg, var(--color-success), #059669);
+      color: var(--text-inverse);
+    }
+    
+    .status-inactive { 
+      background: linear-gradient(135deg, var(--color-gray-400), var(--color-gray-500));
+      color: var(--text-inverse);
+    }
+    
+    .status-warning { 
+      background: linear-gradient(135deg, var(--color-warning), #d97706);
+      color: var(--text-inverse);
+    }
+
+    /* Animations */
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.8; }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .metric-card {
+      animation: fadeInUp var(--animation-duration-slow) var(--animation-easing);
+    }
+
+    .metric-card:nth-child(1) { animation-delay: 0ms; }
+    .metric-card:nth-child(2) { animation-delay: 100ms; }
+    .metric-card:nth-child(3) { animation-delay: 200ms; }
+    .metric-card:nth-child(4) { animation-delay: 300ms; }
+
+    /* Responsive Design */
+    @media (max-width: 1200px) {
+      .dashboard-container {
+        padding: var(--space-xl);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .dashboard-container {
+        padding: var(--space-lg);
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      .overview-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-lg);
+      }
+
+      .action-buttons {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .dashboard-container {
+        padding: var(--space-md);
+      }
+
+      h1 {
+        font-size: 1.75rem;
+      }
+
+      .metric-value {
+        font-size: 2.5rem;
+      }
+    }
   `]
 })
 export class DashboardComponent implements OnInit {
