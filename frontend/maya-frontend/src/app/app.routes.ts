@@ -1,17 +1,45 @@
 import { Routes } from '@angular/router';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { CodeReviewListComponent } from './components/code-review-list/code-review-list.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'reviews', component: CodeReviewListComponent },
-  { path: 'analysis', loadComponent: () => import('./components/dashboard/dashboard.component').then(m => m.DashboardComponent) },
-  { path: 'reports', loadComponent: () => import('./components/dashboard/dashboard.component').then(m => m.DashboardComponent) },
-  { path: 'configurations', loadComponent: () => import('./components/dashboard/dashboard.component').then(m => m.DashboardComponent) },
-  { path: 'integrations', loadComponent: () => import('./components/dashboard/dashboard.component').then(m => m.DashboardComponent) },
-  { path: 'tfs', loadComponent: () => import('./components/dashboard/dashboard.component').then(m => m.DashboardComponent) },
-  { path: 'help', loadComponent: () => import('./components/dashboard/dashboard.component').then(m => m.DashboardComponent) },
-  { path: 'about', loadComponent: () => import('./components/dashboard/dashboard.component').then(m => m.DashboardComponent) },
-  { path: '**', redirectTo: '/dashboard' }
+  { 
+    path: '', 
+    redirectTo: '/dashboard', 
+    pathMatch: 'full' 
+  },
+  { 
+    path: 'dashboard', 
+    loadComponent: () => import('./components/dashboard/dashboard.component.simple').then(m => m.DashboardComponent) 
+  },
+  { 
+    path: 'reviews', 
+    loadComponent: () => import('./components/dashboard/dashboard.component.simple').then(m => m.DashboardComponent) 
+  },
+  { 
+    path: 'reports', 
+    loadComponent: () => import('./components/reports/reports.component').then(m => m.ReportsComponent) 
+  },
+  { 
+    path: 'import', 
+    loadComponent: () => import('./components/dashboard/dashboard.component.simple').then(m => m.DashboardComponent) 
+  },
+  { 
+    path: 'import-tfs', 
+    loadComponent: () => import('./components/dashboard/dashboard.component.simple').then(m => m.DashboardComponent) 
+  },
+  { 
+    path: 'analytics', 
+    loadComponent: () => import('./components/reports/reports.component').then(m => m.ReportsComponent) 
+  },
+  { 
+    path: 'configuration', 
+    loadComponent: () => import('./components/settings/settings.component').then(m => m.SettingsComponent) 
+  },
+  { 
+    path: 'settings', 
+    loadComponent: () => import('./components/settings/settings.component').then(m => m.SettingsComponent) 
+  },
+  { 
+    path: '**', 
+    redirectTo: '/dashboard' 
+  }
 ];
