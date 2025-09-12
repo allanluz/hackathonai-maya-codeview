@@ -40,7 +40,7 @@ public class ConfigurationService {
     @Cacheable(value = "configurations", key = "#configKey")
     public Optional<ConfigurationSettings> getConfiguration(String configKey) {
         log.debug("Buscando configuração: {}", configKey);
-        return configRepository.findByConfigKey(configKey);
+        return configRepository.findByKeyName(configKey);
     }
 
     /**
@@ -99,7 +99,7 @@ public class ConfigurationService {
     public ConfigurationSettings saveConfiguration(String configKey, String configValue, String description) {
         log.info("Salvando configuração: {} = {}", configKey, configValue);
         
-        Optional<ConfigurationSettings> existing = configRepository.findByConfigKey(configKey);
+        Optional<ConfigurationSettings> existing = configRepository.findByKeyName(configKey);
         
         ConfigurationSettings config;
         if (existing.isPresent()) {
@@ -143,7 +143,7 @@ public class ConfigurationService {
     public void deactivateConfiguration(String configKey) {
         log.info("Desativando configuração: {}", configKey);
         
-        Optional<ConfigurationSettings> config = configRepository.findByConfigKey(configKey);
+        Optional<ConfigurationSettings> config = configRepository.findByKeyName(configKey);
         if (config.isPresent()) {
             ConfigurationSettings setting = config.get();
             setting.setIsActive(false);

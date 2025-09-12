@@ -38,7 +38,7 @@ public class SinqiaAiService {
     @Value("${maya.ai.endpoint}")
     private String aiEndpoint;
 
-    @Value("${maya.ai.api-key}")
+    @Value("${maya.ai.api-key:demo-key-2024}")
     private String apiKey;
 
     @Value("${maya.ai.model:gpt-4}")
@@ -525,6 +525,92 @@ public class SinqiaAiService {
         report.append("- Revisão de complexidade de métodos\n");
         
         return report.toString();
+    }
+
+    /**
+     * Testar prompt personalizado com código de exemplo
+     */
+    public String testPrompt(String promptTemplate, String sampleCode, String filename) {
+        log.debug("Testando prompt personalizado com arquivo: {}", filename);
+
+        try {
+            // Construir prompt de teste
+            String fullPrompt = buildTestPrompt(promptTemplate, sampleCode, filename);
+            
+            // Criar request para IA
+            AiRequest request = new AiRequest(
+                    defaultModel,
+                    fullPrompt,
+                    0.3, // temperatura baixa para testes
+                    2000, // menos tokens para teste
+                    Map.of(
+                            "type", "prompt_test",
+                            "filename", filename,
+                            "timestamp", System.currentTimeMillis()
+                    )
+            );
+
+            // Enviar para IA
+            AiResponse response = callAiService(request);
+            
+            if (response.isSuccess()) {
+                log.debug("Teste de prompt executado com sucesso");
+                return formatTestResult(response.content(), response.confidence());
+            } else {
+                log.error("Erro no teste de prompt: {}", response.error());
+                throw new RuntimeException("Falha no teste: " + response.error());
+            }
+
+        } catch (Exception e) {
+            log.error("Erro durante teste de prompt: {}", e.getMessage());
+            throw new RuntimeException("Erro durante teste: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Construir prompt de teste formatado
+     */
+    private String buildTestPrompt(String promptTemplate, String sampleCode, String filename) {
+        StringBuilder testPrompt = new StringBuilder();
+        
+        testPrompt.append("ESTE É UM TESTE DE PROMPT PERSONALIZADO\n\n");
+        testPrompt.append("=== PROMPT TEMPLATE ===\n");
+        testPrompt.append(promptTemplate).append("\n\n");
+        testPrompt.append("=== CÓDIGO DE EXEMPLO ===\n");
+        testPrompt.append("Arquivo: ").append(filename).append("\n\n");
+        testPrompt.append("```java\n");
+        testPrompt.append(sampleCode);
+        testPrompt.append("\n```\n\n");
+        testPrompt.append("=== INSTRUÇÕES ===\n");
+        testPrompt.append("Analise o código acima usando o prompt template fornecido. ");
+        testPrompt.append("Retorne o resultado no formato JSON especificado no template. ");
+        testPrompt.append("Este é apenas um teste para validar o prompt.\n");
+        
+        return testPrompt.toString();
+    }
+
+    /**
+     * Formatar resultado do teste
+     */
+    private String formatTestResult(String aiResponse, double confidence) {
+        StringBuilder result = new StringBuilder();
+        
+        result.append("=== RESULTADO DO TESTE ===\n\n");
+        result.append("**Confiança da IA:** ").append(String.format("%.1f", confidence * 100)).append("%\n\n");
+        result.append("**Resposta da IA:**\n");
+        result.append("```json\n");
+        result.append(aiResponse);
+        result.append("\n```\n\n");
+        result.append("**Status:** ").append(confidence > 0.7 ? "? Prompt funcionando bem" : "?? Prompt pode precisar de ajustes").append("\n");
+        
+        if (confidence < 0.7) {
+            result.append("\n**Recomendações:**\n");
+            result.append("- Tornar as instruções mais específicas\n");
+            result.append("- Adicionar exemplos ao prompt\n");
+            result.append("- Verificar formato de saída esperado\n");
+        }
+        
+        return result.toString();
     }
     
     // Records para DTOs

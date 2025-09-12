@@ -113,6 +113,13 @@ public class AuxiliaryFile {
     private LocalDateTime updatedAt;
 
     /**
+     * Prompt de revisão associado (opcional)
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "review_prompt_id")
+    private ReviewPrompt reviewPrompt;
+
+    /**
      * Tipos de arquivos auxiliares suportados
      */
     public enum FileType {

@@ -27,11 +27,6 @@ public interface ConfigurationSettingsRepository extends JpaRepository<Configura
     Optional<ConfigurationSettings> findByKeyName(String keyName);
 
     /**
-     * Find configuration by config key
-     */
-    Optional<ConfigurationSettings> findByConfigKey(String configKey);
-
-    /**
      * Find configurations by category and active status
      */
     List<ConfigurationSettings> findByCategoryAndIsActiveTrue(String category);

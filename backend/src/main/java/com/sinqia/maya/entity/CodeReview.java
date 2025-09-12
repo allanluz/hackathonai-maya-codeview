@@ -1,6 +1,17 @@
 package com.sinqia.maya.entity;
 
-import jakarta.persistence.*;
+import jakarta.    /**
+     * Repository name
+     */
+    @Column(name = "repository_name", nullable = false, length = 200)
+    private String repositoryName;
+
+    /**
+     * Repository entity reference
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "repository_id")
+    private Repository repository;stence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -144,6 +155,13 @@ public class CodeReview {
      */
     @Column(name = "llm_model", length = 50)
     private String llmModel;
+
+    /**
+     * Review prompt used for analysis
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "review_prompt_id")
+    private ReviewPrompt reviewPrompt;
 
     /**
      * AI confidence score (0-1)

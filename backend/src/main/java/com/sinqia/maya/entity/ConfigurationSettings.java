@@ -40,7 +40,7 @@ public class ConfigurationSettings {
     /**
      * Valor da configuração
      */
-    @Column(name = "value", columnDefinition = "TEXT")
+    @Column(name = "config_value", columnDefinition = "TEXT")
     private String value;
 
     /**

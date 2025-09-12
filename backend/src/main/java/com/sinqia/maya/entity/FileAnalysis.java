@@ -270,6 +270,13 @@ public class FileAnalysis {
     }
 
     /**
+     * Obter número de linhas de código (alias para lineCount)
+     */
+    public Integer getLinesOfCode() {
+        return lineCount;
+    }
+
+    /**
      * Obter resumo da análise
      */
     public String getAnalysisSummary() {

@@ -33,13 +33,13 @@ public class TfsService {
     private final RestTemplate restTemplate;
     private final MayaAnalysisService mayaAnalysisService;
 
-    @Value("${maya.tfs.base-url}")
+    @Value("${maya.tfs.base-url:https://dev.azure.com/sinqia}")
     private String tfsBaseUrl;
 
-    @Value("${maya.tfs.personal-access-token}")
+    @Value("${maya.tfs.personal-access-token:demo-token}")
     private String personalAccessToken;
 
-    @Value("${maya.tfs.organization}")
+    @Value("${maya.tfs.organization:sinqia}")
     private String organization;
 
     @Value("${maya.tfs.api-version:7.0}")
