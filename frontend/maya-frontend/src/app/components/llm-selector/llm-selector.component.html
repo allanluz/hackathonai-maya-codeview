@@ -1,0 +1,88 @@
+<div class="llm-selector-container">
+  <div class="selector-header">
+    <mat-icon class="ai-icon">psychology</mat-icon>
+    <span class="selector-title">Modelo de IA</span>
+    <button mat-icon-button 
+            (click)="refreshModels()" 
+            [disabled]="isLoading"
+            title="Atualizar modelos">
+      <mat-icon>refresh</mat-icon>
+    </button>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-state">
+    <mat-progress-spinner diameter="20"></mat-progress-spinner>
+    <span>Carregando modelos...</span>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !isLoading" class="error-state">
+    <mat-icon color="warn">warning</mat-icon>
+    <span>{{ error }}</span>
+    <button mat-stroked-button 
+            color="primary" 
+            (click)="refreshModels()"
+            class="retry-button">
+      Tentar Novamente
+    </button>
+  </div>
+
+  <!-- Model Selection -->
+  <div *ngIf="!isLoading && !error && availableModels.length > 0" class="model-selection">
+    <mat-form-field appearance="outline" class="model-select">
+      <mat-label>Selecionar Modelo</mat-label>
+      <mat-select [(value)]="selectedModel" 
+                  (selectionChange)="onModelChange()">
+        <mat-optgroup *ngFor="let family of getUniqueModelFamilies()" 
+                      [label]="family">
+          <mat-option *ngFor="let model of getModelsByFamily(family)" 
+                      [value]="model">
+            <div class="model-option">
+              <span class="model-name">{{ getModelDisplayName(model) }}</span>
+              <span class="model-id">{{ model }}</span>
+            </div>
+          </mat-option>
+        </mat-optgroup>
+      </mat-select>
+      <mat-hint>{{ availableModels.length }} modelos disponíveis</mat-hint>
+    </mat-form-field>
+
+    <!-- Selected Model Info -->
+    <div *ngIf="selectedModel" class="selected-model-info">
+      <mat-card appearance="outlined">
+        <mat-card-content>
+          <div class="model-details">
+            <div class="detail-row">
+              <mat-icon>label</mat-icon>
+              <span class="detail-label">Modelo:</span>
+              <span class="detail-value">{{ getModelDisplayName(selectedModel) }}</span>
+            </div>
+            <div class="detail-row">
+              <mat-icon>business</mat-icon>
+              <span class="detail-label">Provedor:</span>
+              <span class="detail-value">{{ getModelFamily(selectedModel) }}</span>
+            </div>
+            <div class="detail-row">
+              <mat-icon>code</mat-icon>
+              <span class="detail-label">ID:</span>
+              <span class="detail-value model-id">{{ selectedModel }}</span>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- No Models Available -->
+  <div *ngIf="!isLoading && !error && availableModels.length === 0" class="no-models">
+    <mat-icon>cloud_off</mat-icon>
+    <span>Nenhum modelo disponível</span>
+    <button mat-raised-button 
+            color="primary" 
+            (click)="refreshModels()">
+      <mat-icon>refresh</mat-icon>
+      Recarregar
+    </button>
+  </div>
+</div>

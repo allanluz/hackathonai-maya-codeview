@@ -1,7 +1,75 @@
 /* Reports Component Styles */
 
+/* Video Background Styles */
+.video-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -10;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.background-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: -10;
+  transform: translateX(-50%) translateY(-50%);
+  background-size: cover;
+  object-fit: cover;
+  filter: blur(1px) brightness(0.7) contrast(1.1);
+}
+
+.video-fallback {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, 
+    rgba(30, 41, 59, 0.9) 0%,
+    rgba(51, 65, 85, 0.8) 50%,
+    rgba(0, 102, 204, 0.2) 100%
+  );
+  z-index: -9;
+}
+
+.video-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    135deg, 
+    rgba(0, 102, 204, 0.1) 0%, 
+    rgba(39, 87, 142, 0.2) 25%,
+    rgba(255, 143, 0, 0.1) 50%,
+    rgba(29, 41, 57, 0.3) 75%,
+    rgba(15, 23, 42, 0.4) 100%
+  );
+  z-index: -8;
+  backdrop-filter: blur(2px);
+  pointer-events: none;
+}
+
+.page-container {
+  position: relative;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  z-index: 1;
+}
+
 .reports-container {
-  background: var(--surface);
+  background: transparent;
   min-height: 100vh;
   padding: 2rem 0;
 }
@@ -10,6 +78,8 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1rem;
+  position: relative;
+  z-index: 10;
 }
 
 /* Page Header */
@@ -22,11 +92,12 @@
     gap: 0.75rem;
     font-size: 2rem;
     font-weight: 700;
-    color: var(--text-color);
+    color: white;
     margin: 0 0 0.5rem 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 
     i {
-      color: var(--primary-color);
+      color: var(--accent-color);
     }
   }
 
@@ -42,16 +113,26 @@
   margin-bottom: 2rem;
 
   .filters-card {
-    background: white;
-    border-radius: var(--border-radius);
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-radius: 12px !important;
     padding: 1.5rem;
-    box-shadow: var(--card-shadow);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
+    backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:hover {
+      transform: translateY(-4px) !important;
+      box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15) !important;
+      background: rgba(255, 255, 255, 0.15) !important;
+    }
 
     h3 {
       margin: 0 0 1.5rem 0;
-      color: var(--text-color);
+      color: white;
       font-size: 1.25rem;
       font-weight: 600;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
     }
 
     .filters-grid {
@@ -65,25 +146,33 @@
       label {
         display: block;
         margin-bottom: 0.5rem;
-        color: var(--text-color);
+        color: white;
         font-weight: 500;
         font-size: 0.875rem;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
       }
 
       .filter-select {
         width: 100%;
         padding: 0.75rem;
-        border: 1px solid var(--surface-border);
+        border: 1px solid rgba(255, 255, 255, 0.2);
         border-radius: var(--border-radius);
         font-size: 0.875rem;
-        background: white;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        color: white;
         cursor: pointer;
         transition: var(--transition);
 
+        &::placeholder {
+          color: rgba(255, 255, 255, 0.6);
+        }
+
         &:focus {
           outline: none;
-          border-color: var(--primary-color);
-          box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.1);
+          border-color: var(--accent-color);
+          background: rgba(255, 255, 255, 0.15);
+          box-shadow: 0 0 0 2px rgba(255, 143, 0, 0.3);
         }
       }
     }
@@ -104,14 +193,17 @@
   margin-bottom: 2rem;
 
   .chart-card {
-    background: white;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: var(--border-radius);
-    box-shadow: var(--card-shadow);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     transition: var(--transition);
 
     &:hover {
       transform: translateY(-2px);
-      box-shadow: var(--card-shadow-hover);
+      background: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
     }
 
     .chart-header {
@@ -122,9 +214,10 @@
 
       h3 {
         margin: 0;
-        color: var(--text-color);
+        color: white;
         font-size: 1.125rem;
         font-weight: 600;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
       }
 
       .chart-actions {
@@ -168,25 +261,26 @@
 /* Summary Section */
 .summary-section {
   .summary-card {
-    background: white;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: var(--border-radius);
-    box-shadow: var(--card-shadow);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 
-    .summary-header {
-      padding: 1.5rem;
-      border-bottom: 1px solid var(--surface-border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      .summary-header {
+        padding: 1.5rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
 
-      h3 {
-        margin: 0;
-        color: var(--text-color);
-        font-size: 1.25rem;
-        font-weight: 600;
-      }
-
-      .summary-actions {
+        h3 {
+          margin: 0;
+          color: white;
+          font-size: 1.25rem;
+          font-weight: 600;
+          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }      .summary-actions {
         display: flex;
         gap: 1rem;
       }
@@ -203,20 +297,23 @@
         th, td {
           padding: 1rem;
           text-align: left;
-          border-bottom: 1px solid var(--surface-border);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+          color: white;
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
         }
 
         th {
-          background: var(--surface-50);
+          background: rgba(255, 255, 255, 0.1);
           font-weight: 600;
-          color: var(--text-color);
+          color: white;
+          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         tr {
           transition: var(--transition);
 
           &:hover {
-            background: var(--surface-50);
+            background: rgba(255, 255, 255, 0.1);
           }
         }
 
@@ -307,6 +404,35 @@
   }
 }
 
+// Força transparência em todos os cards para evitar sobrescrita
+.filters-card,
+.chart-card,
+.summary-card {
+  background: rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
+}
+
+// Sobrescreve qualquer estilo PrimeNG que possa interferir
+:host ::ng-deep {
+  .p-card {
+    background: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
+  }
+  
+  .p-card-body {
+    background: transparent !important;
+  }
+  
+  .p-card-header {
+    background: transparent !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+  }
+}
+
 .btn-primary {
   background: var(--accent-color);
   color: white;
@@ -319,9 +445,10 @@
 }
 
 .btn-secondary {
-  background: white;
-  color: var(--primary-color);
-  border: 1px solid var(--surface-border);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 
   &:hover:not(:disabled) {
     background: var(--primary-color);

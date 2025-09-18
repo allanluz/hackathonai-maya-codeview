@@ -1,0 +1,298 @@
+.llm-selector-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  min-width: 320px;
+  max-width: 500px;
+}
+
+.selector-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  color: var(--primary-color, #1976d2);
+
+  .ai-icon {
+    color: var(--accent-color, #673ab7);
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+
+  .selector-title {
+    flex: 1;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  button {
+    width: 32px;
+    height: 32px;
+    
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+  }
+}
+
+.loading-state {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px;
+  justify-content: center;
+  color: var(--text-secondary, #666);
+  font-size: 14px;
+
+  mat-progress-spinner {
+    --mdc-circular-progress-track-color: transparent;
+  }
+}
+
+.error-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 20px;
+  color: var(--error-color, #d32f2f);
+  text-align: center;
+  background-color: var(--error-background, #ffebee);
+  border-radius: 8px;
+  border: 1px solid var(--error-border, #ffcdd2);
+
+  mat-icon {
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+  }
+
+  span {
+    font-size: 14px;
+    max-width: 280px;
+  }
+
+  .retry-button {
+    margin-top: 8px;
+    min-width: 120px;
+  }
+}
+
+.model-selection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  .model-select {
+    width: 100%;
+
+    .mat-mdc-form-field-infix {
+      min-height: 48px;
+    }
+  }
+}
+
+.model-option {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px 0;
+
+  .model-name {
+    font-weight: 500;
+    color: var(--text-primary, #212121);
+  }
+
+  .model-id {
+    font-size: 12px;
+    color: var(--text-secondary, #757575);
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  }
+}
+
+.selected-model-info {
+  mat-card {
+    background-color: var(--surface-variant, #f5f5f5);
+    border: 1px solid var(--outline-variant, #e0e0e0);
+
+    mat-card-content {
+      padding: 16px !important;
+    }
+  }
+
+  .model-details {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .detail-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+
+    mat-icon {
+      font-size: 16px;
+      width: 16px;
+      height: 16px;
+      color: var(--text-secondary, #757575);
+    }
+
+    .detail-label {
+      font-weight: 500;
+      color: var(--text-secondary, #666);
+      min-width: 70px;
+    }
+
+    .detail-value {
+      color: var(--text-primary, #212121);
+      flex: 1;
+
+      &.model-id {
+        font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+        font-size: 12px;
+        background-color: var(--code-background, #f8f9fa);
+        padding: 2px 6px;
+        border-radius: 4px;
+        border: 1px solid var(--code-border, #e9ecef);
+      }
+    }
+  }
+}
+
+.no-models {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--text-secondary, #666);
+
+  mat-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+    opacity: 0.5;
+  }
+
+  span {
+    font-size: 16px;
+  }
+
+  button {
+    margin-top: 8px;
+    min-width: 140px;
+
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+      margin-right: 8px;
+    }
+  }
+}
+
+// Dark theme support
+@media (prefers-color-scheme: dark) {
+  .llm-selector-container {
+    --primary-color: #90caf9;
+    --accent-color: #ce93d8;
+    --text-primary: #ffffff;
+    --text-secondary: #b0b0b0;
+    --surface-variant: #2c2c2c;
+    --outline-variant: #404040;
+    --error-color: #f48fb1;
+    --error-background: #3e2723;
+    --error-border: #5d4037;
+    --code-background: #1e1e1e;
+    --code-border: #404040;
+  }
+}
+
+// Responsive design
+@media (max-width: 480px) {
+  .llm-selector-container {
+    min-width: unset;
+    max-width: unset;
+    padding: 12px;
+  }
+
+  .selector-header {
+    .selector-title {
+      font-size: 14px;
+    }
+  }
+
+  .model-option {
+    .model-name {
+      font-size: 14px;
+    }
+
+    .model-id {
+      font-size: 11px;
+    }
+  }
+
+  .detail-row {
+    font-size: 13px;
+
+    .detail-label {
+      min-width: 60px;
+    }
+  }
+}
+
+// High contrast mode
+@media (prefers-contrast: high) {
+  .llm-selector-container {
+    .error-state {
+      border-width: 2px;
+    }
+
+    .selected-model-info mat-card {
+      border-width: 2px;
+    }
+
+    .detail-value.model-id {
+      border-width: 2px;
+    }
+  }
+}
+
+// Animation for smooth transitions
+.model-selection,
+.selected-model-info,
+.loading-state,
+.error-state,
+.no-models {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Focus and hover states
+.selector-header button:hover {
+  background-color: var(--hover-background, rgba(0, 0, 0, 0.04));
+}
+
+.retry-button:hover,
+.no-models button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease-in-out;
+}

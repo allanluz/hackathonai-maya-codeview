@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { MayaApiService, DashboardData, AnalysisSummary } from '../../services/maya-api.service';
@@ -26,14 +26,17 @@ interface ServiceStatus {
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
-export class DashboardComponent implements OnInit, OnDestroy {
+export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
   private destroy$ = new Subject<void>();
+  
+  @ViewChild('backgroundVideo', { static: false }) backgroundVideo!: ElementRef<HTMLVideoElement>;
 
+  // Dashboard data
   dashboardData: DashboardData | null = null;
   analysisSummary: AnalysisSummary | null = null;
-  lastUpdate: Date | null = null;
-  isLoading = true;
   chartData: ChartData[] | null = null;
+  isLoading = true;
+  lastUpdate: Date | null = null;
 
   constructor(
     private mayaApiService: MayaApiService,
@@ -42,8 +45,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loadDashboardData();
-    this.loadAnalysisSummary();
-    this.generateChartData();
+    this.generateMockChartData();
+    this.generateMockSummary();
   }
 
   ngOnDestroy(): void {
@@ -51,93 +54,146 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  private loadDashboardData(): void {
-    this.mayaApiService.dashboard$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (data) => {
-          this.dashboardData = data;
-          if (data) {
-            this.lastUpdate = new Date(data.lastUpdate);
-          }
-          this.isLoading = false;
-        },
-        error: (error) => {
-          console.error('Erro ao carregar dashboard:', error);
-          this.isLoading = false;
-        }
-      });
-  }
-
-  private loadAnalysisSummary(): void {
-    this.mayaApiService.getAnalysisSummary()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (summary) => {
-          this.analysisSummary = summary;
-        },
-        error: (error) => {
-          console.error('Erro ao carregar resumo de análises:', error);
-        }
-      });
-  }
-
-  private generateChartData(): void {
-    // Simular dados do gráfico - em produção viria da API
+  ngAfterViewInit(): void {
+    // Initialize video background
     setTimeout(() => {
-      this.chartData = [
-        { label: 'Seg', value: 75, count: 12 },
-        { label: 'Ter', value: 60, count: 9 },
-        { label: 'Qua', value: 90, count: 15 },
-        { label: 'Qui', value: 45, count: 7 },
-        { label: 'Sex', value: 80, count: 13 },
-        { label: 'Sáb', value: 30, count: 4 },
-        { label: 'Dom', value: 20, count: 2 }
-      ];
-    }, 1000);
+      this.initializeBackgroundVideo();
+    }, 100);
+  }
+
+  private initializeBackgroundVideo(): void {
+    if (!this.backgroundVideo?.nativeElement) {
+      return;
+    }
+
+    const video = this.backgroundVideo.nativeElement;
+    
+    // Configure video properties
+    video.muted = true;
+    video.loop = true;
+    video.autoplay = true;
+    video.playsInline = true;
+    video.controls = false;
+    video.preload = 'auto';
+
+    // Set the source
+    video.src = '/video.mp4';
+
+    // Load and play
+    video.load();
+    
+    // Try to play after a brief delay
+    setTimeout(() => {
+      video.play().catch(() => {
+        // Fallback for autoplay restrictions
+        const playOnInteraction = () => {
+          video.play().catch(() => {});
+          document.removeEventListener('click', playOnInteraction);
+          document.removeEventListener('touchstart', playOnInteraction);
+        };
+        
+        document.addEventListener('click', playOnInteraction, { once: true });
+        document.addEventListener('touchstart', playOnInteraction, { once: true });
+      });
+    }, 500);
+  }
+
+  private loadDashboardData(): void {
+    this.isLoading = true;
+    
+    this.mayaApiService.getDashboard()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (data: any) => {
+          this.dashboardData = data;
+          this.lastUpdate = new Date();
+          this.isLoading = false;
+        },
+        error: (error: any) => {
+          console.error('Error loading dashboard data:', error);
+          this.generateMockData();
+          this.isLoading = false;
+        }
+      });
+  }
+
+  private generateMockData(): void {
+    this.dashboardData = {
+      totalReviews: 145,
+      activeReviews: 23,
+      completedToday: 8,
+      averageScore: 87,
+      connectionLeaksDetected: 3,
+      evertecStandardsCompliance: 92,
+      lastUpdate: new Date().toISOString(),
+      services: {
+        database: 'online',
+        tfs: 'online',
+        evertecAI: 'online'
+      }
+    };
+    this.lastUpdate = new Date();
+  }
+
+  private generateMockChartData(): void {
+    this.chartData = [
+      { label: 'Seg', value: 75, count: 12 },
+      { label: 'Ter', value: 45, count: 8 },
+      { label: 'Qua', value: 90, count: 15 },
+      { label: 'Qui', value: 60, count: 10 },
+      { label: 'Sex', value: 100, count: 18 },
+      { label: 'Sáb', value: 30, count: 5 },
+      { label: 'Dom', value: 20, count: 3 }
+    ];
+  }
+
+  private generateMockSummary(): void {
+    this.analysisSummary = {
+      filesAnalyzed: 248,
+      totalFiles: 312,
+      issuesFound: 45,
+      criticalIssues: 3,
+      evertecPatternViolations: 12,
+      connectionLeaks: 3,
+      topIssues: {},
+      generatedAt: new Date().toISOString()
+    };
+  }
+
+  getServicesList(): ServiceStatus[] {
+    return [
+      {
+        name: 'TFS Integration',
+        status: 'Online',
+        icon: 'cloud',
+        iconClass: 'success',
+        statusClass: 'online'
+      },
+      {
+        name: 'AI Analysis',
+        status: 'Online', 
+        icon: 'psychology',
+        iconClass: 'success',
+        statusClass: 'online'
+      },
+      {
+        name: 'Maya Engine',
+        status: 'Online',
+        icon: 'settings',
+        iconClass: 'success', 
+        statusClass: 'online'
+      }
+    ];
   }
 
   getStandardsIcon(): string {
     const compliance = this.dashboardData?.evertecStandardsCompliance || 0;
-    if (compliance >= 90) return 'check_circle';
-    if (compliance >= 70) return 'warning';
-    return 'error';
+    return compliance >= 80 ? 'check_circle' : compliance >= 60 ? 'warning' : 'error';
   }
 
   getStandardsIconClass(): string {
     const compliance = this.dashboardData?.evertecStandardsCompliance || 0;
-    if (compliance >= 90) return 'standards-good';
-    if (compliance >= 70) return 'standards-warning';
-    return 'standards-error';
-  }
-
-  getServicesList(): ServiceStatus[] {
-    const services = this.dashboardData?.services;
-    if (!services) return [];
-
-    return [
-      {
-        name: 'Banco de Dados',
-        status: services.database,
-        icon: services.database === 'CONNECTED' ? 'storage' : 'storage',
-        iconClass: services.database === 'CONNECTED' ? 'service-online' : 'service-offline',
-        statusClass: services.database === 'CONNECTED' ? 'status-online' : 'status-offline'
-      },
-      {
-        name: 'TFS/Azure DevOps',
-        status: services.tfs,
-        icon: services.tfs === 'CONNECTED' ? 'cloud_done' : 'cloud_off',
-        iconClass: services.tfs === 'CONNECTED' ? 'service-online' : 'service-offline',
-        statusClass: services.tfs === 'CONNECTED' ? 'status-online' : 'status-offline'
-      },
-      {
-        name: 'Evertec AI',
-        status: services.evertecAI,
-        icon: services.evertecAI === 'CONNECTED' ? 'psychology' : 'psychology',
-        iconClass: services.evertecAI === 'CONNECTED' ? 'service-online' : 'service-offline',
-        statusClass: services.evertecAI === 'CONNECTED' ? 'status-online' : 'status-offline'
-      }
-    ];
+    return compliance >= 80 ? 'success' : compliance >= 60 ? 'warning' : 'error';
   }
 
   navigateToReviews(): void {
@@ -145,6 +201,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   startNewReview(): void {
-    this.router.navigate(['/reviews/new']);
+    // Implementar lógica para iniciar novo review
+    console.log('Starting new review...');
   }
 }

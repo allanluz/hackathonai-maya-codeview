@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -6,7 +6,29 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div class="reports-container">
+    <div class="page-container">
+      <!-- Video Background -->
+      <div class="video-background">
+        <video 
+          #backgroundVideo 
+          class="background-video"
+          autoplay 
+          muted 
+          loop 
+          playsinline
+          preload="auto"
+          [src]="'/video.mp4'"
+        >
+        </video>
+        <div class="video-fallback"></div>
+      </div>
+      
+      <!-- Video Overlay -->
+      <div class="video-overlay"></div>
+
+      <!-- Container Principal -->
+      <div class="container">
+        <div class="reports-container">
       <div class="container">
         <!-- Header -->
         <div class="page-header">
@@ -253,10 +275,56 @@ import { CommonModule } from '@angular/common';
           </div>
         </div>
       </div>
+      </div>
+    </div>
     </div>
   `,
   styleUrls: ['./reports.component.scss']
 })
-export class ReportsComponent {
+export class ReportsComponent implements AfterViewInit {
+  @ViewChild('backgroundVideo', { static: false }) backgroundVideo!: ElementRef<HTMLVideoElement>;
   
+  ngAfterViewInit(): void {
+    // Initialize video background
+    setTimeout(() => {
+      this.initializeBackgroundVideo();
+    }, 100);
+  }
+
+  private initializeBackgroundVideo(): void {
+    if (!this.backgroundVideo?.nativeElement) {
+      return;
+    }
+
+    const video = this.backgroundVideo.nativeElement;
+    
+    // Configure video properties
+    video.muted = true;
+    video.loop = true;
+    video.autoplay = true;
+    video.playsInline = true;
+    video.controls = false;
+    video.preload = 'auto';
+
+    // Set the source
+    video.src = '/video.mp4';
+
+    // Load and play
+    video.load();
+    
+    // Try to play after a brief delay
+    setTimeout(() => {
+      video.play().catch(() => {
+        // Fallback for autoplay restrictions
+        const playOnInteraction = () => {
+          video.play().catch(() => {});
+          document.removeEventListener('click', playOnInteraction);
+          document.removeEventListener('touchstart', playOnInteraction);
+        };
+        
+        document.addEventListener('click', playOnInteraction, { once: true });
+        document.addEventListener('touchstart', playOnInteraction, { once: true });
+      });
+    }, 500);
+  }
 }

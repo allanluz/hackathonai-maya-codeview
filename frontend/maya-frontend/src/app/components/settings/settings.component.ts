@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -7,7 +7,29 @@ import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } 
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
   template: `
-    <div class="settings-container">
+    <div class="page-container">
+      <!-- Video Background -->
+      <div class="video-background">
+        <video 
+          #backgroundVideo 
+          class="background-video"
+          autoplay 
+          muted 
+          loop 
+          playsinline
+          preload="auto"
+          [src]="'/video.mp4'"
+        >
+        </video>
+        <div class="video-fallback"></div>
+      </div>
+      
+      <!-- Video Overlay -->
+      <div class="video-overlay"></div>
+
+      <!-- Container Principal -->
+      <div class="container">
+        <div class="settings-container">
       <div class="container">
         <!-- Header -->
         <div class="page-header">
@@ -421,10 +443,30 @@ import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } 
   `,
   styleUrls: ['./settings.component.scss']
 })
-export class SettingsComponent {
+export class SettingsComponent implements AfterViewInit {
+  @ViewChild('backgroundVideo', { static: false }) backgroundVideo!: ElementRef<HTMLVideoElement>;
+  
   activeTab = 'general';
 
   constructor(private fb: FormBuilder) {}
+
+  ngAfterViewInit() {
+    this.initializeBackgroundVideo();
+  }
+
+  private initializeBackgroundVideo() {
+    if (this.backgroundVideo?.nativeElement) {
+      const video = this.backgroundVideo.nativeElement;
+      
+      // Ensure video plays
+      video.play().catch(() => {
+        // If autoplay fails, try to play on user interaction
+        document.addEventListener('click', () => {
+          video.play();
+        }, { once: true });
+      });
+    }
+  }
 
   setActiveTab(tab: string) {
     this.activeTab = tab;

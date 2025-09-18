@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
@@ -17,7 +17,29 @@ import {
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
   template: `
-    <!-- Hero Section -->
+    <div class="page-container">
+      <!-- Video Background -->
+      <div class="video-background">
+        <video 
+          #backgroundVideo 
+          class="background-video"
+          autoplay 
+          muted 
+          loop 
+          playsinline
+          preload="auto"
+          [src]="'/video.mp4'"
+        >
+        </video>
+        <div class="video-fallback"></div>
+      </div>
+      
+      <!-- Video Overlay -->
+      <div class="video-overlay"></div>
+
+      <!-- Content Container -->
+      <div class="content-wrapper">
+        <!-- Hero Section -->
     <section class="hero">
       <div class="container">
         <div class="hero-content">
@@ -367,6 +389,9 @@ import {
       </div>
     </div>
 
+      </div> <!-- End content-wrapper -->
+    </div> <!-- End page-container -->
+
     <!-- Toast Notifications -->
     <div class="toast-container">
       <div class="toast" *ngFor="let toast of toasts" [class]="'toast-' + toast.type">
@@ -383,7 +408,9 @@ import {
   `,
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit, OnDestroy {
+export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
+  @ViewChild('backgroundVideo', { static: false }) backgroundVideo!: ElementRef<HTMLVideoElement>;
+  
   private destroy$ = new Subject<void>();
 
   // Data
@@ -439,6 +466,24 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  ngAfterViewInit() {
+    this.initializeBackgroundVideo();
+  }
+
+  private initializeBackgroundVideo() {
+    if (this.backgroundVideo?.nativeElement) {
+      const video = this.backgroundVideo.nativeElement;
+      
+      // Ensure video plays
+      video.play().catch(() => {
+        // If autoplay fails, try to play on user interaction
+        document.addEventListener('click', () => {
+          video.play();
+        }, { once: true });
+      });
+    }
   }
 
   private initializeForms() {
