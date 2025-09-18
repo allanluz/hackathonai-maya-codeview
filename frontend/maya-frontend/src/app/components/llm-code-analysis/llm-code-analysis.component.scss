@@ -1,4 +1,4 @@
-/* Video Background Styles */
+/* Video Background Styles - Enhanced for consistency */
 .video-background {
   position: fixed;
   top: 0;
@@ -22,7 +22,7 @@
   transform: translateX(-50%) translateY(-50%);
   background-size: cover;
   object-fit: cover;
-  filter: blur(1px) brightness(0.7) contrast(1.1);
+  filter: blur(1px) brightness(0.3) contrast(1.2);
 }
 
 .video-fallback {
@@ -32,9 +32,9 @@
   width: 100%;
   height: 100%;
   background: linear-gradient(135deg, 
-    rgba(30, 41, 59, 0.9) 0%,
-    rgba(51, 65, 85, 0.8) 50%,
-    rgba(0, 102, 204, 0.2) 100%
+    rgba(5, 10, 20, 0.95) 0%,
+    rgba(10, 15, 25, 0.9) 50%,
+    rgba(15, 23, 42, 0.85) 100%
   );
   z-index: -9;
 }
@@ -47,14 +47,14 @@
   height: 100%;
   background: linear-gradient(
     135deg, 
-    rgba(0, 102, 204, 0.1) 0%, 
-    rgba(39, 87, 142, 0.2) 25%,
-    rgba(255, 143, 0, 0.1) 50%,
-    rgba(29, 41, 57, 0.3) 75%,
-    rgba(15, 23, 42, 0.4) 100%
+    rgba(5, 10, 20, 0.8) 0%, 
+    rgba(10, 15, 25, 0.7) 25%,
+    rgba(15, 23, 42, 0.6) 50%,
+    rgba(20, 25, 40, 0.7) 75%,
+    rgba(5, 10, 20, 0.9) 100%
   );
   z-index: -8;
-  backdrop-filter: blur(2px);
+  backdrop-filter: blur(3px);
   pointer-events: none;
 }
 
@@ -62,7 +62,7 @@
   position: relative;
   min-height: 100vh;
   overflow-x: hidden;
-  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  background: linear-gradient(135deg, rgba(5, 10, 20, 0.95) 0%, rgba(10, 15, 25, 0.9) 100%);
   z-index: 1;
 }
 
@@ -87,15 +87,17 @@
   h2 {
     font-size: 2.5rem;
     font-weight: 300;
-    color: var(--primary-color, #1976d2);
+    color: rgba(248, 250, 252, 0.95) !important;
     margin-bottom: 8px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   }
 
   p {
     font-size: 1.1rem;
-    color: var(--text-secondary, #666);
+    color: rgba(203, 213, 225, 0.85) !important;
     max-width: 600px;
     margin: 0 auto;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   }
 }
 
@@ -110,45 +112,31 @@
   }
 }
 
-/* Glass-morphism card styles */
+/* Enhanced Glass-morphism card styles for better visibility */
 mat-card {
-  background: rgba(255, 255, 255, 0.95) !important;
+  background: linear-gradient(145deg, rgba(15, 23, 42, 0.98), rgba(30, 41, 59, 0.96)) !important;
   border-radius: 12px !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
-  backdrop-filter: blur(15px) !important;
-  border: 1px solid rgba(228, 231, 236, 0.6) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 4px 16px rgba(0, 0, 0, 0.2) !important;
+  backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(71, 85, 105, 0.8) !important;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  color: rgba(248, 250, 252, 0.95) !important;
 
   &:hover {
     transform: translateY(-4px) !important;
-    box-shadow: 0 4px 16px rgba(0, 102, 204, 0.25) !important;
-    background: rgba(255, 255, 255, 0.98) !important;
+    box-shadow: 0 12px 48px rgba(0, 102, 204, 0.3), 0 8px 24px rgba(0, 0, 0, 0.3) !important;
+    background: linear-gradient(145deg, rgba(15, 23, 42, 1.0), rgba(30, 41, 59, 0.98)) !important;
+    border-color: rgba(71, 85, 105, 1.0) !important;
   }
 }
 
-/* Dark theme adjustments */
-:host-context(.dark) mat-card {
-  background: rgba(30, 41, 59, 0.95) !important;
-  border: 1px solid rgba(71, 85, 105, 0.6) !important;
-}
-
-:host-context(.dark) mat-card:hover {
-  background: rgba(30, 41, 59, 0.98) !important;
-}
-
-:host-context(.dark) .background-video {
-  filter: blur(1px) brightness(0.4) contrast(1.2);
-}
-
-:host-context(.dark) .video-overlay {
-  background: linear-gradient(
-    135deg, 
-    rgba(59, 130, 246, 0.15) 0%, 
-    rgba(30, 41, 59, 0.4) 25%,
-    rgba(245, 158, 11, 0.1) 50%,
-    rgba(51, 65, 85, 0.5) 75%,
-    rgba(15, 23, 42, 0.7) 100%
-  );
+/* Dark theme adjustments - now default */
+mat-card {
+  .mat-mdc-card-title,
+  .mat-mdc-card-content,
+  .mat-mdc-card-header {
+    color: rgba(248, 250, 252, 0.95) !important;
+  }
 }
 
 .input-section {
@@ -175,15 +163,17 @@ mat-card {
 .model-selection-section {
   margin-bottom: 24px;
   padding: 16px;
-  background-color: var(--surface-variant, #f5f5f5);
+  background: linear-gradient(145deg, rgba(20, 25, 40, 0.95), rgba(25, 30, 45, 0.9)) !important;
   border-radius: 8px;
-  border: 1px solid var(--outline-variant, #e0e0e0);
+  border: 1px solid rgba(71, 85, 105, 0.6) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 
   h3 {
     margin: 0 0 16px 0;
     font-size: 1.1rem;
     font-weight: 500;
-    color: var(--text-primary, #212121);
+    color: rgba(248, 250, 252, 0.95) !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
   }
 }
 
@@ -231,7 +221,8 @@ mat-card {
     margin: 0 0 16px 0;
     font-size: 1.1rem;
     font-weight: 500;
-    color: var(--text-primary, #212121);
+    color: rgba(248, 250, 252, 0.95) !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
   }
 
   .options-grid {
@@ -243,12 +234,13 @@ mat-card {
       display: flex;
       align-items: center;
       gap: 8px;
+      color: rgba(248, 250, 252, 0.9) !important;
 
       mat-icon {
         font-size: 18px;
         width: 18px;
         height: 18px;
-        color: var(--text-secondary, #666);
+        color: rgba(255, 143, 0, 0.9) !important;
       }
     }
   }
@@ -308,11 +300,12 @@ mat-card {
 
   h3 {
     margin-bottom: 8px;
-    color: var(--text-primary, #212121);
+    color: rgba(248, 250, 252, 0.95) !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
   }
 
   p {
-    color: var(--text-secondary, #666);
+    color: rgba(203, 213, 225, 0.85) !important;
     margin-bottom: 32px;
   }
 
@@ -330,12 +323,15 @@ mat-card {
       border-radius: 8px;
       transition: all 0.3s ease;
       opacity: 0.4;
+      background: rgba(30, 41, 59, 0.6);
+      border: 1px solid rgba(71, 85, 105, 0.4);
 
       &.active {
         opacity: 1;
-        background-color: var(--primary-color, #1976d2);
-        color: white;
+        background: linear-gradient(145deg, rgba(255, 143, 0, 0.9), rgba(255, 143, 0, 0.7)) !important;
+        color: rgba(5, 10, 20, 0.95) !important;
         transform: scale(1.05);
+        box-shadow: 0 4px 16px rgba(255, 143, 0, 0.3);
       }
 
       mat-icon {
@@ -360,8 +356,10 @@ mat-card {
     gap: 24px;
     margin-bottom: 32px;
     padding: 20px;
-    background-color: var(--surface-variant, #f5f5f5);
+    background: linear-gradient(145deg, rgba(20, 25, 40, 0.95), rgba(25, 30, 45, 0.9)) !important;
     border-radius: 12px;
+    border: 1px solid rgba(71, 85, 105, 0.6);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 
     .score-circle {
       width: 100px;
@@ -375,27 +373,31 @@ mat-card {
       border: 4px solid;
 
       &.excellent {
-        background-color: #e8f5e8;
+        background: linear-gradient(145deg, rgba(76, 175, 80, 0.2), rgba(76, 175, 80, 0.1));
         border-color: #4caf50;
-        color: #2e7d32;
+        color: #66bb6a;
+        box-shadow: 0 0 20px rgba(76, 175, 80, 0.3);
       }
 
       &.good {
-        background-color: #fff3e0;
+        background: linear-gradient(145deg, rgba(255, 152, 0, 0.2), rgba(255, 152, 0, 0.1));
         border-color: #ff9800;
-        color: #ef6c00;
+        color: #ffb74d;
+        box-shadow: 0 0 20px rgba(255, 152, 0, 0.3);
       }
 
       &.average {
-        background-color: #fff8e1;
+        background: linear-gradient(145deg, rgba(255, 193, 7, 0.2), rgba(255, 193, 7, 0.1));
         border-color: #ffc107;
-        color: #f57c00;
+        color: #ffca28;
+        box-shadow: 0 0 20px rgba(255, 193, 7, 0.3);
       }
 
       &.poor {
-        background-color: #ffebee;
+        background: linear-gradient(145deg, rgba(244, 67, 54, 0.2), rgba(244, 67, 54, 0.1));
         border-color: #f44336;
-        color: #c62828;
+        color: #ef5350;
+        box-shadow: 0 0 20px rgba(244, 67, 54, 0.3);
       }
 
       .score-value {
@@ -418,12 +420,13 @@ mat-card {
         align-items: center;
         gap: 8px;
         margin-bottom: 8px;
-        color: var(--text-secondary, #666);
+        color: rgba(203, 213, 225, 0.85) !important;
 
         mat-icon {
           font-size: 16px;
           width: 16px;
           height: 16px;
+          color: rgba(255, 143, 0, 0.9) !important;
         }
       }
     }
@@ -441,10 +444,11 @@ mat-card {
       margin-bottom: 16px;
       font-size: 1.2rem;
       font-weight: 500;
-      color: var(--text-primary, #212121);
+      color: rgba(248, 250, 252, 0.95) !important;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 
       mat-icon {
-        color: var(--primary-color, #1976d2);
+        color: rgba(255, 143, 0, 0.9) !important;
       }
     }
   }
@@ -568,24 +572,30 @@ mat-card {
   .review-section {
     .review-content {
       padding: 20px;
-      background-color: var(--surface-variant, #f5f5f5);
+      background: linear-gradient(145deg, rgba(20, 25, 40, 0.95), rgba(25, 30, 45, 0.9)) !important;
       border-radius: 8px;
+      border: 1px solid rgba(71, 85, 105, 0.6);
       line-height: 1.6;
       font-size: 15px;
+      color: rgba(248, 250, 252, 0.9) !important;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
   }
 }
 
-// Dark theme support
-@media (prefers-color-scheme: dark) {
-  .code-analysis-container {
-    --primary-color: #90caf9;
-    --text-primary: #ffffff;
-    --text-secondary: #b0b0b0;
-    --surface-variant: #2c2c2c;
-    --outline-variant: #404040;
-    --error-color: #f48fb1;
-    --code-background: #1e1e1e;
+// Enhanced animations and responsive design
+.analysis-results {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -621,21 +631,5 @@ mat-card {
   .progress-steps {
     flex-direction: column;
     gap: 16px;
-  }
-}
-
-// Animation for smooth transitions
-.analysis-results {
-  animation: fadeInUp 0.5s ease-out;
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
   }
 }

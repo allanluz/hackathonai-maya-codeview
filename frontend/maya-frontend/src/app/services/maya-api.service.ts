@@ -61,6 +61,29 @@ export interface Issue {
   suggestion?: string;
 }
 
+export interface LlmModel {
+  id: string;
+  name: string;
+  family: string;
+  description: string;
+}
+
+export interface CodeAnalysisRequest {
+  code: string;
+  fileName: string;
+  model: string;
+}
+
+export interface CodeReviewRequest extends CodeAnalysisRequest {
+  criteria?: string;
+}
+
+export interface LlmResponse {
+  status: string;
+  message?: string;
+  timestamp: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -184,5 +207,37 @@ export class MayaApiService {
     return this.http.get(`${this.baseUrl}/reports/${reviewId}?format=${format}`, {
       responseType: 'blob'
     });
+  }
+
+  // ===================================================================
+  // MÉTODOS LLM (EverAI Integration)
+  // ===================================================================
+
+  /**
+   * Obtém modelos LLM disponíveis
+   */
+  getLlmModels(): Observable<LlmResponse & { models: string[] }> {
+    return this.http.get<LlmResponse & { models: string[] }>(`${this.baseUrl}/llm/models`);
+  }
+
+  /**
+   * Analisa código usando LLM
+   */
+  analyzeCodeWithLlm(request: CodeAnalysisRequest): Observable<LlmResponse & { analysis: string }> {
+    return this.http.post<LlmResponse & { analysis: string }>(`${this.baseUrl}/llm/analyze`, request, this.httpOptions);
+  }
+
+  /**
+   * Gera sugestões de código usando LLM
+   */
+  generateCodeSuggestions(request: CodeAnalysisRequest): Observable<LlmResponse & { suggestions: string }> {
+    return this.http.post<LlmResponse & { suggestions: string }>(`${this.baseUrl}/llm/suggestions`, request, this.httpOptions);
+  }
+
+  /**
+   * Realiza code review usando LLM
+   */
+  performLlmCodeReview(request: CodeReviewRequest): Observable<LlmResponse & { review: string }> {
+    return this.http.post<LlmResponse & { review: string }>(`${this.baseUrl}/llm/review`, request, this.httpOptions);
   }
 }

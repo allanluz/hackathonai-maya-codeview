@@ -5,6 +5,10 @@
   padding: 16px;
   min-width: 320px;
   max-width: 500px;
+  background: linear-gradient(145deg, rgba(20, 25, 40, 0.95), rgba(25, 30, 45, 0.9));
+  border-radius: 12px;
+  border: 1px solid rgba(248, 250, 252, 0.1);
+  color: rgba(248, 250, 252, 0.95);
 }
 
 .selector-header {
@@ -12,10 +16,10 @@
   align-items: center;
   gap: 8px;
   font-weight: 500;
-  color: var(--primary-color, #1976d2);
+  color: rgba(248, 250, 252, 0.95);
 
   .ai-icon {
-    color: var(--accent-color, #673ab7);
+    color: #60a5fa;
     font-size: 20px;
     width: 20px;
     height: 20px;
@@ -25,16 +29,26 @@
     flex: 1;
     font-size: 16px;
     font-weight: 600;
+    color: rgba(248, 250, 252, 0.95);
   }
 
   button {
     width: 32px;
     height: 32px;
+    background-color: rgba(248, 250, 252, 0.1) !important;
+    color: rgba(248, 250, 252, 0.8) !important;
+    border: 1px solid rgba(248, 250, 252, 0.2) !important;
+    
+    &:hover {
+      background-color: rgba(248, 250, 252, 0.2) !important;
+      color: rgba(248, 250, 252, 0.95) !important;
+    }
     
     mat-icon {
       font-size: 18px;
       width: 18px;
       height: 18px;
+      color: inherit !important;
     }
   }
 }
@@ -45,11 +59,11 @@
   gap: 12px;
   padding: 20px;
   justify-content: center;
-  color: var(--text-secondary, #666);
+  color: rgba(203, 213, 225, 0.85);
   font-size: 14px;
 
-  mat-progress-spinner {
-    --mdc-circular-progress-track-color: transparent;
+  ::ng-deep mat-progress-spinner circle {
+    stroke: #60a5fa !important;
   }
 }
 
@@ -59,26 +73,35 @@
   align-items: center;
   gap: 12px;
   padding: 20px;
-  color: var(--error-color, #d32f2f);
+  color: #f87171;
   text-align: center;
-  background-color: var(--error-background, #ffebee);
+  background: linear-gradient(145deg, rgba(40, 15, 15, 0.9), rgba(50, 20, 20, 0.8));
   border-radius: 8px;
-  border: 1px solid var(--error-border, #ffcdd2);
+  border: 1px solid rgba(248, 113, 113, 0.3);
 
   mat-icon {
     font-size: 24px;
     width: 24px;
     height: 24px;
+    color: #f87171;
   }
 
   span {
     font-size: 14px;
     max-width: 280px;
+    color: rgba(248, 250, 252, 0.9);
   }
 
   .retry-button {
     margin-top: 8px;
     min-width: 120px;
+    background-color: rgba(248, 113, 113, 0.2) !important;
+    color: #f87171 !important;
+    border: 1px solid rgba(248, 113, 113, 0.4) !important;
+    
+    &:hover {
+      background-color: rgba(248, 113, 113, 0.3) !important;
+    }
   }
 }
 
@@ -90,9 +113,79 @@
   .model-select {
     width: 100%;
 
-    .mat-mdc-form-field-infix {
-      min-height: 48px;
+    ::ng-deep {
+      .mat-mdc-form-field {
+        background-color: rgba(248, 250, 252, 0.05) !important;
+        border-radius: 8px;
+        
+        .mat-mdc-form-field-infix {
+          min-height: 48px;
+        }
+        
+        .mdc-notched-outline__leading,
+        .mdc-notched-outline__notch,
+        .mdc-notched-outline__trailing {
+          border-color: rgba(248, 250, 252, 0.3) !important;
+        }
+        
+        &:hover .mdc-notched-outline__leading,
+        &:hover .mdc-notched-outline__notch,
+        &:hover .mdc-notched-outline__trailing {
+          border-color: rgba(248, 250, 252, 0.5) !important;
+        }
+        
+        &.mat-focused .mdc-notched-outline__leading,
+        &.mat-focused .mdc-notched-outline__notch,
+        &.mat-focused .mdc-notched-outline__trailing {
+          border-color: #60a5fa !important;
+        }
+        
+        .mat-mdc-form-field-label {
+          color: rgba(203, 213, 225, 0.85) !important;
+        }
+        
+        &.mat-focused .mat-mdc-form-field-label {
+          color: #60a5fa !important;
+        }
+        
+        .mat-mdc-select-value {
+          color: rgba(248, 250, 252, 0.95) !important;
+        }
+        
+        .mat-mdc-select-arrow {
+          color: rgba(203, 213, 225, 0.85) !important;
+        }
+        
+        .mat-mdc-form-field-hint-wrapper {
+          color: rgba(148, 163, 184, 0.7) !important;
+        }
+      }
     }
+  }
+}
+
+::ng-deep .mat-mdc-select-panel {
+  background-color: rgba(20, 25, 40, 0.98) !important;
+  border: 1px solid rgba(248, 250, 252, 0.2) !important;
+  border-radius: 8px !important;
+  
+  .mat-mdc-option {
+    color: rgba(248, 250, 252, 0.95) !important;
+    
+    &:hover {
+      background-color: rgba(248, 250, 252, 0.1) !important;
+    }
+    
+    &.mdc-list-item--selected {
+      background-color: rgba(96, 165, 250, 0.2) !important;
+      color: #60a5fa !important;
+    }
+  }
+  
+  .mat-optgroup-label {
+    color: rgba(203, 213, 225, 0.85) !important;
+    font-weight: 600 !important;
+    background-color: rgba(248, 250, 252, 0.05) !important;
   }
 }
 
@@ -104,20 +197,22 @@
 
   .model-name {
     font-weight: 500;
-    color: var(--text-primary, #212121);
+    color: rgba(248, 250, 252, 0.95);
   }
 
   .model-id {
     font-size: 12px;
-    color: var(--text-secondary, #757575);
+    color: rgba(203, 213, 225, 0.85);
     font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
   }
 }
 
 .selected-model-info {
-  mat-card {
-    background-color: var(--surface-variant, #f5f5f5);
-    border: 1px solid var(--outline-variant, #e0e0e0);
+  ::ng-deep mat-card {
+    background: linear-gradient(145deg, rgba(30, 35, 50, 0.9), rgba(35, 40, 55, 0.8)) !important;
+    border: 1px solid rgba(248, 250, 252, 0.15) !important;
+    border-radius: 8px !important;
+    color: rgba(248, 250, 252, 0.95) !important;
 
     mat-card-content {
       padding: 16px !important;
@@ -140,26 +235,27 @@
       font-size: 16px;
       width: 16px;
       height: 16px;
-      color: var(--text-secondary, #757575);
+      color: rgba(203, 213, 225, 0.85);
     }
 
     .detail-label {
       font-weight: 500;
-      color: var(--text-secondary, #666);
+      color: rgba(203, 213, 225, 0.85);
       min-width: 70px;
     }
 
     .detail-value {
-      color: var(--text-primary, #212121);
+      color: rgba(248, 250, 252, 0.95);
       flex: 1;
 
       &.model-id {
         font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
         font-size: 12px;
-        background-color: var(--code-background, #f8f9fa);
+        background-color: rgba(15, 20, 35, 0.8);
         padding: 2px 6px;
         border-radius: 4px;
-        border: 1px solid var(--code-border, #e9ecef);
+        border: 1px solid rgba(248, 250, 252, 0.2);
+        color: #60a5fa;
       }
     }
   }
@@ -172,46 +268,41 @@
   gap: 16px;
   padding: 40px 20px;
   text-align: center;
-  color: var(--text-secondary, #666);
+  color: rgba(203, 213, 225, 0.85);
 
   mat-icon {
     font-size: 48px;
     width: 48px;
     height: 48px;
     opacity: 0.5;
+    color: rgba(148, 163, 184, 0.7);
   }
 
   span {
     font-size: 16px;
+    color: rgba(203, 213, 225, 0.85);
   }
 
   button {
     margin-top: 8px;
     min-width: 140px;
+    background-color: rgba(96, 165, 250, 0.2) !important;
+    color: #60a5fa !important;
+    border: 1px solid rgba(96, 165, 250, 0.4) !important;
+    
+    &:hover {
+      background-color: rgba(96, 165, 250, 0.3) !important;
+      transform: translateY(-1px);
+    }
 
     mat-icon {
       font-size: 18px;
       width: 18px;
       height: 18px;
       margin-right: 8px;
+      opacity: 1;
+      color: inherit;
     }
-  }
-}
-
-// Dark theme support
-@media (prefers-color-scheme: dark) {
-  .llm-selector-container {
-    --primary-color: #90caf9;
-    --accent-color: #ce93d8;
-    --text-primary: #ffffff;
-    --text-secondary: #b0b0b0;
-    --surface-variant: #2c2c2c;
-    --outline-variant: #404040;
-    --error-color: #f48fb1;
-    --error-background: #3e2723;
-    --error-border: #5d4037;
-    --code-background: #1e1e1e;
-    --code-border: #404040;
   }
 }
 
@@ -248,23 +339,6 @@
   }
 }
 
-// High contrast mode
-@media (prefers-contrast: high) {
-  .llm-selector-container {
-    .error-state {
-      border-width: 2px;
-    }
-
-    .selected-model-info mat-card {
-      border-width: 2px;
-    }
-
-    .detail-value.model-id {
-      border-width: 2px;
-    }
-  }
-}
-
 // Animation for smooth transitions
 .model-selection,
 .selected-model-info,
@@ -287,12 +361,12 @@
 
 // Focus and hover states
 .selector-header button:hover {
-  background-color: var(--hover-background, rgba(0, 0, 0, 0.04));
+  background-color: rgba(248, 250, 252, 0.2) !important;
 }
 
 .retry-button:hover,
 .no-models button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   transition: all 0.2s ease-in-out;
 }

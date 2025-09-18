@@ -338,23 +338,54 @@ export class LlmCodeAnalysisComponent implements OnInit, OnDestroy, AfterViewIni
   }
 
   loadSampleCode() {
-    const sampleCode = `public class UserService {
-    private UserRepository userRepository;
+    const sampleCode = `package com.sinqia.maya.service;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.List;
+
+public class UserService {
+    private ConexaoService conexaoService;
     
     public User createUser(String username, String password) {
-        if (username == null || password == null) {
-            return null; // Poor error handling
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        
+        try {
+            // Problema: Não segue padrão empresta()/devolve()
+            conn = conexaoService.getConnection();
+            
+            // Problema: Senha em texto plano
+            String sql = "INSERT INTO users (username, password) VALUES (?, ?)";
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, username);
+            stmt.setString(2, password); // Vulnerabilidade de segurança
+            
+            stmt.executeUpdate();
+            
+            // Problema: Conexão não é devolvida adequadamente
+            return new User(username, password);
+            
+        } catch (Exception e) {
+            // Problema: Tratamento de erro inadequado
+            return null;
         }
-        
-        User user = new User();
-        user.setUsername(username);
-        user.setPassword(password); // Security issue: plain text password
-        
-        return userRepository.save(user);
+        // Problema: Sem finally block para garantir devolve()
     }
     
     public List<User> getAllUsers() {
-        return userRepository.findAll(); // Performance issue: no pagination
+        Connection conn = conexaoService.empresta(); // Correto
+        try {
+            // Problema: Sem paginação
+            String sql = "SELECT * FROM users";
+            // ... implementação
+            return userList;
+        } finally {
+            if (conn != null) {
+                conexaoService.devolve(conn); // Correto
+            }
+        }
     }
 }`;
     
@@ -384,50 +415,180 @@ export class LlmCodeAnalysisComponent implements OnInit, OnDestroy, AfterViewIni
         .pipe(takeUntil(this.destroy$))
         .subscribe({
         next: (result: any) => {
-          this.analysisResult = {
-            analysisId: 'analysis-' + Date.now(),
-            model: this.selectedModel,
-            score: Math.floor(Math.random() * 40) + 60, // Random score between 60-100
-            suggestions: [
-              'Consider using dependency injection for UserRepository',
-              'Implement proper error handling with exceptions',
-              'Add password hashing before storing user credentials',
-              'Implement pagination for getAllUsers method',
-              'Add input validation for user data'
-            ],
-            issues: [
-              {
-                type: 'critical' as const,
-                message: 'Password stored in plain text - major security vulnerability',
-                line: 9,
-                severity: 9
-              },
-              {
-                type: 'warning' as const,
-                message: 'Poor error handling - returning null instead of throwing exception',
-                line: 5,
-                severity: 6
-              },
-              {
-                type: 'info' as const,
-                message: 'Consider implementing pagination for large datasets',
-                line: 14,
-                severity: 4
-              }
-            ],
-            review: result.analysis || 'This code shows basic functionality but has several areas for improvement. The most critical issue is storing passwords in plain text, which poses a serious security risk. Additionally, error handling could be improved by using exceptions rather than returning null values. For better performance and scalability, consider implementing pagination in the getAllUsers method.',
-            timestamp: new Date()
-          };
+          this.analysisResult = this.processAnalysisResult(result);
           this.isAnalyzing = false;
           this.currentStep = 0;
         },
         error: (error: any) => {
           console.error('Analysis failed:', error);
+          this.handleAnalysisError(error);
           this.isAnalyzing = false;
           this.currentStep = 0;
-          // Show error message to user
         }
       });
+    } else {
+      this.validateForm();
+    }
+  }
+
+  private processAnalysisResult(result: any): CodeAnalysisResult {
+    // Gera dados simulados mais realistas baseados na análise do LLM
+    const score = this.calculateQualityScore(result.analysis);
+    const issues = this.extractIssuesFromAnalysis(result.analysis);
+    const suggestions = this.extractSuggestionsFromAnalysis(result.analysis);
+
+    return {
+      analysisId: 'analysis-' + Date.now(),
+      model: this.selectedModel,
+      score: score,
+      suggestions: suggestions,
+      issues: issues,
+      review: result.analysis || 'Análise concluída com sucesso.',
+      timestamp: new Date()
+    };
+  }
+
+  private calculateQualityScore(analysis: string): number {
+    // Análise simples baseada em palavras-chave
+    const positiveKeywords = ['boa qualidade', 'bem estruturado', 'adequado', 'correto', 'bom'];
+    const negativeKeywords = ['problema', 'erro', 'crítico', 'vulnerabilidade', 'melhorar'];
+    
+    const text = analysis.toLowerCase();
+    let score = 75; // Score base
+    
+    positiveKeywords.forEach(keyword => {
+      if (text.includes(keyword)) score += 5;
+    });
+    
+    negativeKeywords.forEach(keyword => {
+      if (text.includes(keyword)) score -= 8;
+    });
+    
+    return Math.max(40, Math.min(100, score));
+  }
+
+  private extractIssuesFromAnalysis(analysis: string): any[] {
+    // Extrai problemas comuns baseados na análise
+    const issues = [];
+    const text = analysis.toLowerCase();
+    
+    if (text.includes('senha') || text.includes('password')) {
+      issues.push({
+        type: 'critical' as const,
+        message: 'Possível problema de segurança com senha em texto plano',
+        line: Math.floor(Math.random() * 20) + 1,
+        severity: 9
+      });
+    }
+    
+    if (text.includes('null') || text.includes('nullpointer')) {
+      issues.push({
+        type: 'warning' as const,
+        message: 'Possível risco de NullPointerException',
+        line: Math.floor(Math.random() * 20) + 1,
+        severity: 6
+      });
+    }
+    
+    if (text.includes('performance') || text.includes('lento')) {
+      issues.push({
+        type: 'info' as const,
+        message: 'Oportunidade de melhoria de performance identificada',
+        line: Math.floor(Math.random() * 20) + 1,
+        severity: 4
+      });
+    }
+
+    if (text.includes('empresta') || text.includes('devolve') || text.includes('conexão')) {
+      issues.push({
+        type: 'critical' as const,
+        message: 'Verificar padrão empresta()/devolve() para evitar vazamento de conexão',
+        line: Math.floor(Math.random() * 20) + 1,
+        severity: 9
+      });
+    }
+    
+    return issues;
+  }
+
+  private extractSuggestionsFromAnalysis(analysis: string): string[] {
+    const suggestions = [
+      'Considere implementar validação de entrada mais robusta',
+      'Adicione logging adequado para facilitar debugging',
+      'Implemente tratamento de exceções específico',
+      'Considere usar padrões de design appropriados',
+      'Adicione documentação JavaDoc aos métodos públicos'
+    ];
+
+    // Adiciona sugestões específicas baseadas na análise
+    const text = analysis.toLowerCase();
+    
+    if (text.includes('conexão') || text.includes('database')) {
+      suggestions.unshift('Implemente o padrão empresta()/devolve() para gerenciamento de conexões');
+    }
+    
+    if (text.includes('segurança') || text.includes('security')) {
+      suggestions.unshift('Revise as práticas de segurança implementadas');
+    }
+    
+    if (text.includes('performance')) {
+      suggestions.unshift('Considere otimizações de performance sugeridas');
+    }
+    
+    return suggestions.slice(0, 5); // Limita a 5 sugestões
+  }
+
+  private handleAnalysisError(error: any) {
+    let errorMessage = 'Erro inesperado durante a análise';
+    
+    if (error.status === 0) {
+      errorMessage = 'Não foi possível conectar com o servidor. Verifique sua conexão.';
+    } else if (error.status === 400) {
+      errorMessage = 'Dados inválidos enviados para análise.';
+    } else if (error.status === 401) {
+      errorMessage = 'Não autorizado. Verifique as credenciais de API.';
+    } else if (error.status === 403) {
+      errorMessage = 'Acesso negado ao serviço de análise.';
+    } else if (error.status === 429) {
+      errorMessage = 'Limite de requisições excedido. Tente novamente em alguns minutos.';
+    } else if (error.status >= 500) {
+      errorMessage = 'Erro interno do servidor. Tente novamente mais tarde.';
+    }
+    
+    // Aqui você pode exibir uma notificação ou toast para o usuário
+    console.error('Erro na análise:', errorMessage);
+    
+    // Opcional: Criar resultado de erro para exibir na interface
+    this.analysisResult = {
+      analysisId: 'error-' + Date.now(),
+      model: this.selectedModel,
+      score: 0,
+      suggestions: ['Tente novamente após verificar a conexão'],
+      issues: [{
+        type: 'critical' as const,
+        message: errorMessage,
+        severity: 10
+      }],
+      review: `Erro na análise: ${errorMessage}`,
+      timestamp: new Date()
+    };
+  }
+
+  private validateForm() {
+    if (!this.selectedModel) {
+      console.error('Nenhum modelo LLM selecionado');
+      return;
+    }
+    
+    if (!this.analysisForm.get('code')?.value?.trim()) {
+      console.error('Código é obrigatório para análise');
+      this.analysisForm.get('code')?.markAsTouched();
+      return;
+    }
+    
+    if (this.analysisForm.get('code')?.value?.trim().length < 10) {
+      console.error('Código muito curto para análise significativa');
+      return;
     }
   }
 
